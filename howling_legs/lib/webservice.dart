@@ -12,12 +12,19 @@ class Webservice {
       return double.tryParse(s) != null;
    }
 
-  static Future<List<List<double>>> pathBetweenPoints(Location from, Location to) async {
+  static Future<List<List<double>>> pathBetweenPoints(List<Location> locations) async {
 
-    var url = Uri.parse(
-        'http://192.168.1.121:8989/route?point=${from.latitude}%2C${from.longitude}&point=${to.latitude}%2C${to.longitude}&profile=bike&points_encoded=false');
+    String url = "http://192.168.1.121:8989/route?";
+    
+    for(var location in locations){
+      url += ("point=" + location.latitude.toString() + "%2C" + location.longitude.toString() + "&");
+    }
 
-    var response = await http.get(url);
+    url += "profile=bike&points_encoded=false";
+
+    var request = Uri.parse(url);
+
+    var response = await http.get(request);
 
     if (response.statusCode == 200) {
 
@@ -71,8 +78,6 @@ class Webservice {
         for(int i = 0; i < points.length; i++){
             points[i] = points[i].reversed.toList();
         }
-
-        print(points);
         
       return points;
     } 

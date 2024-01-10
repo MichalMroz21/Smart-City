@@ -55,8 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
       pointsLat.add(LatLng(point[0], point[1]));
     }
 
-    print(pointsLat);
-
     polylines.add(Polyline(
       points: pointsLat,
       color: Colors.red,
@@ -152,20 +150,28 @@ class _MyHomePageState extends State<MyHomePage> {
             left: 20,
             child: ElevatedButton(
               onPressed: () async {
-                List<List<double>> points = await Webservice.pathBetweenPoints(
+
+                List<List<double>> points = await Webservice.pathBetweenPoints([
                   Location(
-                    latitude: 54.474086,
-                    longitude: 18.465274,
+                    latitude: 54.510225,
+                    longitude: 18.483229,
                     timestamp: DateTime.now(),
                   ),
                   Location(
-                    latitude: 54.491926,
-                    longitude: 18.538385,
+                    latitude: 54.502609,
+                    longitude: 18.502044,
                     timestamp: DateTime.now(),
                   ),
-                );
+                  Location(
+                    latitude: 54.481975 ,
+                    longitude: 18.513702,
+                    timestamp: DateTime.now(),
+                  ),
+                ]);
+
                 debugPrint("response:");
                 print(points);
+
                 addPath(points);
               },
               child: const Text('Ask Kamil'),
