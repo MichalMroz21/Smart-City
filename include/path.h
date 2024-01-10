@@ -8,8 +8,16 @@ class Path : public QObject
 {
     Q_OBJECT
     QList<Place*> places;
+
+
+    void DisplayPathPlaces();
+
+    void GetPath();
+    void DrawPathMap();
+
 public:
-    Add(Place *place);
+    void Add(Place *place);
+    CalculatePath();
     explicit Path(QObject *parent = nullptr);
 
 signals:
