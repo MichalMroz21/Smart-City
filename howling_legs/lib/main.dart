@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:howling_legs/location_selector.dart';
+import 'package:howling_legs/PathCreator.dart';
 import 'package:howling_legs/webservice.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,28 +45,26 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Address> _determineAddress() async {
     final currentAddress = await GeoCode().reverseGeocoding(
         latitude: mapController.center.latitude,
-        longitude: mapController.center.longitude
-    );
+        longitude: mapController.center.longitude);
 
     return currentAddress;
   }
 
-  Future<Address> _determineAddressWithPos (double latitude, double longitude) async{
-    final currentAddress = await GeoCode().reverseGeocoding(
-        latitude: latitude,
-        longitude: longitude
-    );
+  Future<Address> _determineAddressWithPos(
+      double latitude, double longitude) async {
+    final currentAddress = await GeoCode()
+        .reverseGeocoding(latitude: latitude, longitude: longitude);
 
     return currentAddress;
   }
 
-  Future<Coordinates> _determinePosition(String address) async{
+  Future<Coordinates> _determinePosition(String address) async {
     //"532 S Olive St, Los Angeles, CA 90013"
-      final coordinates = await GeoCode().forwardGeocoding(address: address);
-      return coordinates;
+    final coordinates = await GeoCode().forwardGeocoding(address: address);
+    return coordinates;
   }
 
-  void addMarker(double latitude, double longitude){
+  void addMarker(double latitude, double longitude) {
     markers.add(Marker(
       point: LatLng(latitude, longitude),
       width: 80,
@@ -98,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-
               MarkerLayer(markers: markers)
             ],
           ),
@@ -108,13 +107,19 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ElevatedButton(
               onPressed: () async {
                 //mapController.move(const LatLng(0.0, 0.0), 10.0);
-                debugPrint(await _determineAddress().then((value) => value.streetAddress));
-                debugPrint(await _determinePosition("532 S Olive St, Los Angeles, CA 90013").then((value) => value.latitude.toString() + value.longitude.toString()));
+                debugPrint(await _determineAddress()
+                    .then((value) => value.streetAddress));
+                debugPrint(await _determinePosition(
+                        "532 S Olive St, Los Angeles, CA 90013")
+                    .then((value) =>
+                        value.latitude.toString() +
+                        value.longitude.toString()));
                 addMarker(54.34663, 18.64392);
               },
               child: const Text('Go to Address'),
             ),
           ),
+          PathCreator(),
           Positioned(
             top: 60,
             left: 20,
@@ -138,6 +143,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Ask Kamil'),
             ),
           ),
+          Positioned(
+            top: 100,
+            left: 20,
+            child: LocationSelector(),
+          )
         ],
       ),
     );
