@@ -38,12 +38,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
 
-  Future<Address> _determinePosition() async {
+  Future<Address> _determineAddress() async {
     final currentAddress = await GeoCode().reverseGeocoding(
         latitude: mapController.center.latitude,
         longitude: mapController.center.longitude);
 
     return currentAddress;
+  }
+
+  Future<Coordinates> _determinePosition(String address) async{
+    //"532 S Olive St, Los Angeles, CA 90013"
+      final coordinates = await GeoCode().forwardGeocoding(address: address);
+      return coordinates;
   }
 
   @override
@@ -79,7 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ElevatedButton(
               onPressed: () async {
                 //mapController.move(const LatLng(0.0, 0.0), 10.0);
-                debugPrint(await _determinePosition().then((value) => value.streetAddress));
+                debugPrint(await _determineAddress().then((value) => value.streetAddress));
+                debugPrint(await _determinePosition("532 S Olive St, Los Angeles, CA 90013").then((value) => value.latitude.toString() + value.longitude.toString()));
               },
               child: const Text('Go to Address'),
             ),
