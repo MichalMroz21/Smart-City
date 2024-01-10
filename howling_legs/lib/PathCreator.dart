@@ -10,39 +10,34 @@ class PathCreator extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _PathtCreatorState();
   }
-
-
 }
 
-class _PathtCreatorState extends State<PathCreator> {  
-  final List<String> points=[];
+class _PathtCreatorState extends State<PathCreator> {
+  final List<Place> places = [];
 
-  void addItemToList(String item) {
+  void addItemToList(Place item) {
     setState(() {
-      points.add(item);
+      places.add(item);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(      
-          children: [
-            PlacesPath(points: points),                            
-          ]
-        ),
-        Column(
-          children: [
-            PlacesList(points: [
-              Place(address: 'aa', onclick: addItemToList),
-              Place(address: 'bb', onclick: addItemToList)
-            ])
-          ],
-        ) 
+        Column(children: [
+          PlacesPath(places: places),
+        ]),
+        // Column(
+        //   children: [
+        //     // PlacesList(points: [
+        //     //   Place(),
+        //     //   Place(address: 'bb', onclick: addItemToList)
+        //     // ])
+        //   ],
+        // )
       ],
-    );   
+    );
   }
 }

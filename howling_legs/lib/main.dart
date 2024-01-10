@@ -40,6 +40,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
+  PathCreator pathCrator = PathCreator();
   List<Marker> markers = [];
 
   Future<Address> _determineAddress() async {
@@ -119,13 +120,13 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Go to Address'),
             ),
           ),
-          PathCreator(),
           Positioned(
             top: 60,
             left: 20,
             child: ElevatedButton(
               onPressed: () async {
-                List<List<double>> response = await Webservice.pathBetweenPoints(
+                List<List<double>> response =
+                    await Webservice.pathBetweenPoints(
                   Location(
                     latitude: 54.474086,
                     longitude: 18.465274,
@@ -144,10 +145,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
+            top: 20,
+            right: 80,
+            child: LocationSelector(
+              pathCreator: pathCrator,
+            ),
+          ),
+          Positioned(
             top: 100,
             left: 20,
-            child: LocationSelector(),
-          )
+            child: pathCrator,
+          ),
         ],
       ),
     );
