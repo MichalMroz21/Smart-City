@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class Webservice {
   static Future<String> pathBetweenPoints(Location from, Location to) async {
     var url = Uri.parse(
-        'http://192.168.1.121:8989/route?point=${from.latitude}%2C${from.longitude}&point=${to.latitude}%2C${to.longitude}&profile=bike');
+        'http://192.168.1.121:8989/route?point=${from.latitude}%2C${from.longitude}&point=${to.latitude}%2C${to.longitude}&profile=bike&points_encoded=false');
     var response = await http.get(url);
     if (response.statusCode == 200) {
       // var jsonResponse =
