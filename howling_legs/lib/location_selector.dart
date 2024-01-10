@@ -25,6 +25,12 @@ class LocationSelector extends StatefulWidget {
 class _LocationSelectorState extends State<LocationSelector> {
   List<Place> places = [];
   String prompt = "";
+  bool isCategory = false;
+  String currCategory = "bank";
+
+  static void categoryChange(dynamic newCategory){
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +50,25 @@ class _LocationSelectorState extends State<LocationSelector> {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Autocomplete<String>(
                     optionsBuilder: (TextEditingValue textEditingValue) async {
-                      prompt = textEditingValue.text;
-                      if (textEditingValue.text == '') {
-                        return const Iterable<String>.empty();
-                      }
-                      Iterable<Place> promptedPlaces =
-                          await Webservice.searchPrompts(textEditingValue.text);
-                      return promptedPlaces.map((e) => e.name);
-                      // {
-                      //   return option
-                      //       .contains(textEditingValue.text.toLowerCase());
-                      // });
-                      //;
+
+                          prompt = (currCategory == "none" ? textEditingValue.text : currCategory);
+                          isCategory = (currCategory != "none");
+
+                          if (prompt == '') {
+                            return const Iterable<String>.empty();
+                          }
+                          Iterable<Place> promptedPlaces =
+                              await Webservice.searchPrompts(prompt, isCategory);
+                          return promptedPlaces.map((e) => e.name);
+                          // {
+                          //   return option
+                          //       .contains(textEditingValue.text.toLowerCase());
+                          // });
+                          //;                     
                     },
                     onSelected: (String selection) async {
                       Iterable<Place> promptedPlaces =
-                          await Webservice.searchPrompts(prompt);
+                          await Webservice.searchPrompts(prompt, isCategory);
                       setState(() {
                         places.add(promptedPlaces
                             .firstWhere((e) => e.name == selection));
@@ -70,6 +79,8 @@ class _LocationSelectorState extends State<LocationSelector> {
                   ),
                 ),
               ),
+
+              
             ],
           ),
         ),

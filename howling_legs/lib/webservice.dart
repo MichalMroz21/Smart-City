@@ -12,12 +12,18 @@ class Webservice {
     return double.tryParse(s) != null;
   }
 
-  static Future<Iterable<Place>> searchPrompts(String prompt) async {
+  static Future<Iterable<Place>> searchPrompts(String prompt, bool isCategory) async {
+    
     if (prompt == '') {
       return const Iterable<Place>.empty();
     }
 
-    String url = "http://192.168.1.121:8080/search.php?q=$prompt";
+    String search = "q";
+
+    if(isCategory) search = "amenity";
+    else search = "q";
+
+    String url = "http://192.168.1.121:8080/search.php?" + search + "=$prompt";
 
     var request = Uri.parse(url);
 
