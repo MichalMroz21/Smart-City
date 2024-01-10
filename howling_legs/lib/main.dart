@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:geocoding/geocoding.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,12 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Smart City',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Smart City'),
     );
   }
 }
@@ -33,27 +34,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  MapController mapController = MapController();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Future<void> _goToLocation(String address) async {
+    try {
+      List<Location> locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        mapController.move(
+          LatLng(locations.first.latitude, locations.first.longitude),
+          13.0,
+        );
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
       body: Stack(
         children: [
           FlutterMap(
+            mapController: mapController,
             options: const MapOptions(
-              initialCenter: LatLng(51.509364, -0.128928),
-              initialZoom: 9.2,
+              center: LatLng(51.509364, -0.128928),
+              zoom: 9.2,
             ),
             children: [
               TileLayer(
@@ -68,9 +74,19 @@ class _MyHomePageState extends State<MyHomePage> {
                         Uri.parse('https://openstreetmap.org/copyright')),
                   ),
                 ],
-              )
+              ),
             ],
-          )
+          ),
+          Positioned(
+            top: 20,
+            left: 20,
+            child: ElevatedButton(
+              onPressed: () {
+                _goToLocation('1600 Amphitheatre Parkway, Mountain View, CA');
+              },
+              child: Text('Go to Address'),
+            ),
+          ),
         ],
       ),
     );
