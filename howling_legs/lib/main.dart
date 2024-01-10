@@ -43,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
           FlutterMap(
             mapController: mapController,
             options: const MapOptions(
-              center: LatLng(51.509364, -0.128928),
-              zoom: 9.2,
+              initialCenter: LatLng(54.34663, 18.64392),
+              initialZoom: 16.2,
             ),
             children: [
               TileLayer(
