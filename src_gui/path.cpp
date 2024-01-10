@@ -9,7 +9,7 @@ Path::Path(QObject *parent)
 }
 
 
-Path::Add(Place &place)
+Path::Add(Place *place)
 {
-
+    places.append(place);
 }
