@@ -17,7 +17,7 @@ class Path : public QObject
 
 public:
     void Add(Place *place);
-    CalculatePath();
+    void CalculatePath();
     explicit Path(QObject *parent = nullptr);
 
 signals:
