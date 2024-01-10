@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:howling_legs/PathCreator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:geocoding/geocoding.dart';
+import 'package:geocode/geocode.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,12 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Smart City',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Smart City'),
     );
   }
 }
@@ -34,23 +35,33 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {  
+class _MyHomePageState extends State<MyHomePage> {
+  MapController mapController = MapController();
+
+  Future<Address> _determineAddress() async {
+    final currentAddress = await GeoCode().reverseGeocoding(
+        latitude: mapController.center.latitude,
+        longitude: mapController.center.longitude);
+
+    return currentAddress;
+  }
+
+  Future<Coordinates> _determinePosition(String address) async{
+    //"532 S Olive St, Los Angeles, CA 90013"
+      final coordinates = await GeoCode().forwardGeocoding(address: address);
+      return coordinates;
+  }
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
       body: Stack(
         children: [
           FlutterMap(
+            mapController: mapController,
             options: const MapOptions(
-              initialCenter: LatLng(51.509364, -0.128928),
-              initialZoom: 9.2,
+              initialCenter: LatLng(54.34663, 18.64392),
+              initialZoom: 16.2,
             ),
             children: [
               TileLayer(
@@ -65,10 +76,21 @@ class _MyHomePageState extends State<MyHomePage> {
                         Uri.parse('https://openstreetmap.org/copyright')),
                   ),
                 ],
-              )
+              ),
             ],
           ),
-          const PathCreator(),                    
+          Positioned(
+            top: 20,
+            left: 20,
+            child: ElevatedButton(
+              onPressed: () async {
+                //mapController.move(const LatLng(0.0, 0.0), 10.0);
+                debugPrint(await _determineAddress().then((value) => value.streetAddress));
+                debugPrint(await _determinePosition("532 S Olive St, Los Angeles, CA 90013").then((value) => value.latitude.toString() + value.longitude.toString()));
+              },
+              child: const Text('Go to Address'),
+            ),
+          ),
         ],
       ),
     );
