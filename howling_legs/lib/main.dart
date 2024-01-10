@@ -41,6 +41,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
   List<Marker> markers = [];
+  List<Polyline> polylines = [];
+  
+  void clearPaths(){
+    polylines.clear();
+  }
+
+  void addPath(List<List<double>> points){
+
+    List<LatLng> pointsLat = [];
+
+    for(var point in points){
+      pointsLat.add(LatLng(point[0], point[1]));
+    }
+
+    polylines.add(Polyline(
+      points: pointsLat,
+      color: Colors.red,
+      strokeWidth: 2
+    ));
+  }
 
   Future<Address> _determineAddress() async {
     final currentAddress = await GeoCode().reverseGeocoding(
@@ -85,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               initialZoom: 16.2,
             ),
             children: [
+              
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.example.app',
@@ -98,7 +119,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              MarkerLayer(markers: markers)
+              
+              MarkerLayer(markers: markers),
+              PolylineLayer(
+                polylines: polylines
+              ),
             ],
           ),
           Positioned(
@@ -125,20 +150,29 @@ class _MyHomePageState extends State<MyHomePage> {
             left: 20,
             child: ElevatedButton(
               onPressed: () async {
-                List<List<double>> response = await Webservice.pathBetweenPoints(
+
+                List<List<double>> points = await Webservice.pathBetweenPoints([
                   Location(
-                    latitude: 54.474086,
-                    longitude: 18.465274,
+                    latitude: 54.510225,
+                    longitude: 18.483229,
                     timestamp: DateTime.now(),
                   ),
                   Location(
-                    latitude: 54.491926,
-                    longitude: 18.538385,
+                    latitude: 54.502609,
+                    longitude: 18.502044,
                     timestamp: DateTime.now(),
                   ),
-                );
+                  Location(
+                    latitude: 54.481975 ,
+                    longitude: 18.513702,
+                    timestamp: DateTime.now(),
+                  ),
+                ]);
+
                 debugPrint("response:");
-                print(response);
+                print(points);
+
+                addPath(points);
               },
               child: const Text('Ask Kamil'),
             ),
@@ -146,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Positioned(
             top: 100,
             left: 20,
-            child: LocationSelector(),
+            child: LocationSelector(mapController: mapController,),
           )
         ],
       ),
