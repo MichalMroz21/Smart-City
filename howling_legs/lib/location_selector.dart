@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:howling_legs/PathCreator.dart';
 import 'package:howling_legs/PlacesPath.dart';
+import 'package:howling_legs/webservice.dart';
 
 import 'Place.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:latlong2/latlong.dart';
 
 class LocationSelector extends StatefulWidget {
   final PathCreator pathCreator;
+  final MapController mapController;
+  static Map<String, List<double>> locations = {};
 
-  static const List<String> _kOptions = <String>[
-    'ciocia',
-    'wytrzeźwiałka',
-    'pg',
-  ];
-
-  const LocationSelector({super.key, required this.pathCreator});
+  const LocationSelector(
+      {super.key, required this.pathCreator, required this.mapController});
 
   @override
   State<LocationSelector> createState() => _LocationSelectorState();
 }
 
 class _LocationSelectorState extends State<LocationSelector> {
-  List<Place> places = [
-    Place(name: "pg"),
-    Place(name: "wytrzeźwiałka"),
-    Place(name: "ciocia"),
-  ];
+  List<Place> places = [];
+  String prompt = "";
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +43,29 @@ class _LocationSelectorState extends State<LocationSelector> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Autocomplete<String>(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
+                    optionsBuilder: (TextEditingValue textEditingValue) async {
+                      prompt = textEditingValue.text;
                       if (textEditingValue.text == '') {
                         return const Iterable<String>.empty();
                       }
-                      return LocationSelector._kOptions.where((String option) {
-                        return option
-                            .contains(textEditingValue.text.toLowerCase());
-                      });
+                      Iterable<Place> promptedPlaces =
+                          await Webservice.searchPrompts(textEditingValue.text);
+                      return promptedPlaces.map((e) => e.name);
+                      // {
+                      //   return option
+                      //       .contains(textEditingValue.text.toLowerCase());
+                      // });
+                      //;
                     },
-                    onSelected: (String selection) {
-                      Place p = places.firstWhere((e) => e.name == selection);
+                    onSelected: (String selection) async {
+                      Iterable<Place> promptedPlaces =
+                          await Webservice.searchPrompts(prompt);
                       setState(() {
-                        places.add(p);
+                        places.add(promptedPlaces
+                            .firstWhere((e) => e.name == selection));
                       });
+                      //                       List<double> points = locations[selection]!;
+                      // mapController.move(LatLng(points[0], points[1]), mapController.zoom);
                     },
                   ),
                 ),
