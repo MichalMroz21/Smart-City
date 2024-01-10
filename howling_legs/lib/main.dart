@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:geocoding/geocoding.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,20 +35,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
 
-  Future<void> _goToLocation(String address) async {
-    try {
-      List<Location> locations = await locationFromAddress(address);
-      if (locations.isNotEmpty) {
-        mapController.move(
-          LatLng(locations.first.latitude, locations.first.longitude),
-          13.0,
-        );
-      }
-    } catch (e) {
-      print("Error: $e");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,9 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
             left: 20,
             child: ElevatedButton(
               onPressed: () {
-                _goToLocation('1600 Amphitheatre Parkway, Mountain View, CA');
+                mapController.move(const LatLng(0.0, 0.0), 10.0);
               },
-              child: Text('Go to Address'),
+              child: const Text('Go to Address'),
             ),
           ),
         ],
