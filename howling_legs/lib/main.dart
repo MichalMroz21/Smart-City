@@ -40,26 +40,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
+  PathCreator pathCrator = const PathCreator();
   List<Marker> markers = [];
   List<Polyline> polylines = [];
-  
-  void clearPaths(){
+
+  void clearPaths() {
     polylines.clear();
   }
 
-  void addPath(List<List<double>> points, Color color){
-
+  void addPath(List<List<double>> points, Color color) {
     List<LatLng> pointsLat = [];
 
-    for(var point in points){
+    for (var point in points) {
       pointsLat.add(LatLng(point[0], point[1]));
     }
 
-    polylines.add(Polyline(
-      points: pointsLat,
-      color: color,
-      strokeWidth: 2
-    ));
+    polylines.add(Polyline(points: pointsLat, color: color, strokeWidth: 2));
   }
 
   Future<Address> _determineAddress() async {
@@ -105,7 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
               initialZoom: 16.2,
             ),
             children: [
-              
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.example.app',
@@ -119,11 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              
               MarkerLayer(markers: markers),
-              PolylineLayer(
-                polylines: polylines
-              ),
+              PolylineLayer(polylines: polylines),
             ],
           ),
           Positioned(
@@ -144,13 +136,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Go to Address'),
             ),
           ),
-          PathCreator(),
           Positioned(
             top: 60,
             left: 20,
             child: ElevatedButton(
               onPressed: () async {
-
                 List<List<double>> points = await Webservice.pathBetweenPoints([
                   Location(
                     latitude: 54.510225,
@@ -163,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     timestamp: DateTime.now(),
                   ),
                   Location(
-                    latitude: 54.481975 ,
+                    latitude: 54.481975,
                     longitude: 18.513702,
                     timestamp: DateTime.now(),
                   ),
@@ -178,10 +168,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            top: 100,
-            left: 20,
-            child: LocationSelector(mapController: mapController,),
-          )
+            top: 20,
+            right: 80,
+            child: LocationSelector(
+              mapController: mapController,
+              pathCreator: pathCrator,
+            ),
+          ),
         ],
       ),
     );
