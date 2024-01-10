@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             left: 20,
             child: ElevatedButton(
               onPressed: () async {
-                String response = await Webservice.pathBetweenPoints(
+                List<List<double>> response = await Webservice.pathBetweenPoints(
                   Location(
                     latitude: 54.474086,
                     longitude: 18.465274,
@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 );
                 debugPrint("response:");
-                debugPrint(response);
+                print(response);
               },
               child: const Text('Ask Kamil'),
             ),
