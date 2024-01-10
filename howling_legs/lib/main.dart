@@ -80,12 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return coordinates;
   }
 
-  void addMarker(double latitude, double longitude, Color color) {
+  void addMarker(double latitude, double longitude, Icon icon) {
     markers.add(Marker(
       point: LatLng(latitude, longitude),
       width: 80,
       height: 80,
-      child: Icon(Icons.location_on, size: 30.0, color: color),
+      child: icon,
     ));
   }
 
@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     .then((value) =>
                         value.latitude.toString() +
                         value.longitude.toString()));
-                addMarker(54.34663, 18.64392, Colors.red);
+                addMarker(54.34663, 18.64392, Icon(Icons.location_on, size: 30.0, color: Colors.red));
               },
               child: const Text('Go to Address'),
             ),
@@ -173,6 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: LocationSelector(
               mapController: mapController,
               pathCreator: pathCrator,
+              markers: markers,
             ),
           ),
         ],

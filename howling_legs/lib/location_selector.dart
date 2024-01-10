@@ -13,10 +13,11 @@ import 'package:latlong2/latlong.dart';
 class LocationSelector extends StatefulWidget {
   final PathCreator pathCreator;
   final MapController mapController;
+  final List<Marker> markers;
   static Map<String, List<double>> locations = {};
 
   const LocationSelector(
-      {super.key, required this.pathCreator, required this.mapController});
+      {super.key, required this.pathCreator, required this.mapController, required this.markers});
 
   @override
   State<LocationSelector> createState() => _LocationSelectorState();
@@ -28,8 +29,23 @@ class _LocationSelectorState extends State<LocationSelector> {
   bool isCategory = false;
   String currCategory = "bank";
 
+  Map<String, Icon> categoryIconMap = {
+    "bank" : Icon(Icons.attach_money, size: 30.0, color: Colors.green),
+    "hospital" : Icon(Icons.local_hospital, size: 30.0, color: Colors.red),
+    "pub" : Icon(Icons.local_bar, size: 30.0, color: Colors.pink),
+  };
+
   static void categoryChange(dynamic newCategory){
     return;
+  }
+
+  void addMarker(double latitude, double longitude, Icon icon) {
+    widget.markers.add(Marker(
+      point: LatLng(latitude, longitude),
+      width: 80,
+      height: 80,
+      child: icon,
+    ));
   }
 
   @override
@@ -59,6 +75,13 @@ class _LocationSelectorState extends State<LocationSelector> {
                           }
                           Iterable<Place> promptedPlaces =
                               await Webservice.searchPrompts(prompt, isCategory);
+
+                          if(isCategory){
+                            for(var promptedPlace in promptedPlaces){
+                                addMarker(promptedPlace.latitude, promptedPlace.longitude, categoryIconMap[currCategory]!);
+                            }
+                          }
+
                           return promptedPlaces.map((e) => e.name);
                           // {
                           //   return option
