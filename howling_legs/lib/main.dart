@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:howling_legs/PathCreator.dart';
+import 'package:howling_legs/webservice.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:geocoding/geocoding.dart';
@@ -43,7 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Address> _determineAddress() async {
     final currentAddress = await GeoCode().reverseGeocoding(
         latitude: mapController.center.latitude,
-        longitude: mapController.center.longitude);
+        longitude: mapController.center.longitude
+    );
+
+    return currentAddress;
+  }
+
+  Future<Address> _determineAddressWithPos (double latitude, double longitude) async{
+    final currentAddress = await GeoCode().reverseGeocoding(
+        latitude: latitude,
+        longitude: longitude
+    );
 
     return currentAddress;
   }
@@ -105,7 +116,30 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Go to Address'),
             ),
           ),
-          PathCreator()
+          PathCreator(),
+          Positioned(
+            top: 60,
+            left: 20,
+            child: ElevatedButton(
+              onPressed: () async {
+                String response = await Webservice.pathBetweenPoints(
+                  Location(
+                    latitude: 54.474086,
+                    longitude: 18.465274,
+                    timestamp: DateTime.now(),
+                  ),
+                  Location(
+                    latitude: 54.491926,
+                    longitude: 18.538385,
+                    timestamp: DateTime.now(),
+                  ),
+                );
+                debugPrint("response:");
+                debugPrint(response);
+              },
+              child: const Text('Ask Kamil'),
+            ),
+          ),
         ],
       ),
     );
