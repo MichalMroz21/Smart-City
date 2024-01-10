@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     polylines.clear();
   }
 
-  void addPath(List<List<double>> points){
+  void addPath(List<List<double>> points, Color color){
 
     List<LatLng> pointsLat = [];
 
@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     polylines.add(Polyline(
       points: pointsLat,
-      color: Colors.red,
+      color: color,
       strokeWidth: 2
     ));
   }
@@ -84,12 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return coordinates;
   }
 
-  void addMarker(double latitude, double longitude) {
+  void addMarker(double latitude, double longitude, Color color) {
     markers.add(Marker(
       point: LatLng(latitude, longitude),
       width: 80,
       height: 80,
-      child: Icon(Icons.location_on, size: 30.0, color: Colors.red),
+      child: Icon(Icons.location_on, size: 30.0, color: color),
     ));
   }
 
@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     .then((value) =>
                         value.latitude.toString() +
                         value.longitude.toString()));
-                addMarker(54.34663, 18.64392);
+                addMarker(54.34663, 18.64392, Colors.red);
               },
               child: const Text('Go to Address'),
             ),
@@ -172,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 debugPrint("response:");
                 print(points);
 
-                addPath(points);
+                addPath(points, Colors.red);
               },
               child: const Text('Ask Kamil'),
             ),
