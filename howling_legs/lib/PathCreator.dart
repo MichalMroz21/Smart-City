@@ -53,6 +53,7 @@ class _PathtCreatorState extends State<PathCreator> {
             ) 
           ],
         ),
+        /*
         Row(
           mainAxisAlignment: MainAxisAlignment.center,          
           children: [
@@ -65,6 +66,7 @@ class _PathtCreatorState extends State<PathCreator> {
             )                       
           ],
         )
+        */
       ]
     );   
   }

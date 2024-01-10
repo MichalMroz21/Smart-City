@@ -1,2 +1,8 @@
 
 howling_legs/.flutter-plugins-dependencies
+howling_legs/windows/*
+howling_legs/linux
+howling_legs/macos
+howling_legs/.dart_tool
+howling_legs/ios
+howling_legs/.dart_tool/
