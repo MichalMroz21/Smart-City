@@ -19,7 +19,22 @@ class PlacesPath extends StatefulWidget {
   @override
   Widget build(BuildContext context) {        
   
-    return Column(children: widget.points.map((e) => Text(e)).toList());
+    return Column(
+      children: widget.points.map(
+        (e) => Text(e)
+
+        /* for drawing with icons 
+        (e) => CircleAvatar(
+              backgroundColor: Colors.green,
+              child:IconButton(
+                icon: Icon(Icons.bakery_dining),
+                color: Colors.black,
+                onPressed: ()=>{}) 
+            )
+        
+         */
+        ).toList()
+    );
   }
 
 

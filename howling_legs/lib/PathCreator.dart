@@ -26,23 +26,41 @@ class _PathtCreatorState extends State<PathCreator> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(      
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PlacesPath(points: points),                            
-          ]
-        ),
-        Column(
-          children: [
-            PlacesList(points: [
-              Place(address: 'aa', onclick: addItemToList),
-              Place(address: 'bb', onclick: addItemToList)
-            ])
+            Column(      
+              children: [
+                PlacesPath(points: points),                            
+              ]
+            ),
+            Column(
+              children: [
+                PlacesList(points: [
+                  Place(address: 'aa', onclick: addItemToList),
+                  Place(address: 'bb', onclick: addItemToList)
+                ])
+              ],
+            ) 
           ],
-        ) 
-      ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,          
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.green,
+              child:IconButton(
+                icon: Icon(Icons.arrow_upward),
+                color: Colors.black,
+                onPressed: ()=>{}) 
+            )                       
+          ],
+        )
+      ]
     );   
   }
 }
