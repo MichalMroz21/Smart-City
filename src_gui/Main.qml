@@ -35,5 +35,9 @@ Window {
             center: QtPositioning.coordinate(25.6565, 125.6849);
             zoomLevel: 15
         }
+
+        LocationSelector{
+
+        }
     }
 }
