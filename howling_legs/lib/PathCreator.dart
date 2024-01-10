@@ -3,6 +3,11 @@ import 'package:howling_legs/PlacesList.dart';
 import 'PlacesPath.dart';
 import 'Place.dart';
 
+/**
+ * Whole widget containing: 
+ * - PathPlaces - A list of chosen Places (on the left)
+ * - PathList - A container for selecting Places
+ */
 class PathCreator extends StatefulWidget {
   const PathCreator({super.key});
 

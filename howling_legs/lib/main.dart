@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Go to Address'),
             ),
           ),
-          PathCreator(),
+          const PathCreator(),
           Positioned(
             top: 60,
             left: 20,
