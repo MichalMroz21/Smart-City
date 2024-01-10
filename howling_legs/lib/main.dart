@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:howling_legs/webservice.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:geocoding/geocoding.dart';
@@ -78,10 +79,33 @@ class _MyHomePageState extends State<MyHomePage> {
             left: 20,
             child: ElevatedButton(
               onPressed: () async {
-                //mapController.move(const LatLng(0.0, 0.0), 10.0);
-                debugPrint(await _determinePosition().then((value) => value.streetAddress));
+                debugPrint(await _determinePosition()
+                    .then((value) => value.streetAddress));
               },
               child: const Text('Go to Address'),
+            ),
+          ),
+          Positioned(
+            top: 60,
+            left: 20,
+            child: ElevatedButton(
+              onPressed: () async {
+                String response = await Webservice.pathBetweenPoints(
+                  Location(
+                    latitude: 54.474086,
+                    longitude: 18.465274,
+                    timestamp: DateTime.now(),
+                  ),
+                  Location(
+                    latitude: 54.491926,
+                    longitude: 18.538385,
+                    timestamp: DateTime.now(),
+                  ),
+                );
+                debugPrint("response:");
+                debugPrint(response);
+              },
+              child: const Text('Ask Kamil'),
             ),
           ),
         ],
