@@ -67,6 +67,12 @@ class Webservice {
           }
 
         }
+
+        for(int i = 0; i < points.length; i++){
+            points[i] = points[i].reversed.toList();
+        }
+
+        print(points);
         
       return points;
     } 
