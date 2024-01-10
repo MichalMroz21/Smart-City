@@ -42,7 +42,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Address> _determineAddress() async {
     final currentAddress = await GeoCode().reverseGeocoding(
         latitude: mapController.center.latitude,
-        longitude: mapController.center.longitude);
+        longitude: mapController.center.longitude
+    );
+
+    return currentAddress;
+  }
+
+  Future<Address> _determineAddressWithPos (double latitude, double longitude) async{
+    final currentAddress = await GeoCode().reverseGeocoding(
+        latitude: latitude,
+        longitude: longitude
+    );
 
     return currentAddress;
   }
