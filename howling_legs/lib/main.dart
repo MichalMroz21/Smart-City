@@ -38,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
+  List<Marker> markers = [];
 
   Future<Address> _determineAddress() async {
     final currentAddress = await GeoCode().reverseGeocoding(
@@ -51,6 +52,15 @@ class _MyHomePageState extends State<MyHomePage> {
     //"532 S Olive St, Los Angeles, CA 90013"
       final coordinates = await GeoCode().forwardGeocoding(address: address);
       return coordinates;
+  }
+
+  void addMarker(double latitude, double longitude){
+    markers.add(Marker(
+      point: LatLng(latitude, longitude),
+      width: 80,
+      height: 80,
+      child: Icon(Icons.location_on, size: 30.0, color: Colors.red),
+    ));
   }
 
   @override
@@ -78,6 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+
+              MarkerLayer(markers: markers)
             ],
           ),
           Positioned(
@@ -88,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //mapController.move(const LatLng(0.0, 0.0), 10.0);
                 debugPrint(await _determineAddress().then((value) => value.streetAddress));
                 debugPrint(await _determinePosition("532 S Olive St, Los Angeles, CA 90013").then((value) => value.latitude.toString() + value.longitude.toString()));
+                addMarker(54.34663, 18.64392);
               },
               child: const Text('Go to Address'),
             ),
