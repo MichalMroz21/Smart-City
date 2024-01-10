@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geocode/geocode.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +38,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   MapController mapController = MapController();
 
+  Future<Address> _determinePosition() async {
+    final currentAddress = await GeoCode().reverseGeocoding(
+        latitude: mapController.center.latitude,
+        longitude: mapController.center.longitude);
+
+    return currentAddress;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,8 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
             top: 20,
             left: 20,
             child: ElevatedButton(
-              onPressed: () {
-                mapController.move(const LatLng(0.0, 0.0), 10.0);
+              onPressed: () async {
+                //mapController.move(const LatLng(0.0, 0.0), 10.0);
+                debugPrint(await _determinePosition().then((value) => value.streetAddress));
               },
               child: const Text('Go to Address'),
             ),
