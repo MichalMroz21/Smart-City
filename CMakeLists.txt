@@ -20,7 +20,7 @@ project(SmartCity VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Sql Concurrent)
+find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Sql Concurrent Location)
 
 qt_standard_project_setup()
 qt_policy(SET QTP0001 NEW) #use new policy (old is deprecated)
@@ -52,6 +52,7 @@ target_link_libraries(appSmartCity
     PRIVATE Qt6::Quick
     PRIVATE Qt${QT_VERSION_MAJOR}::Sql
     PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent
+    PRIVATE Qt6::Location
 )
 
 set_target_properties(appSmartCity PROPERTIES
