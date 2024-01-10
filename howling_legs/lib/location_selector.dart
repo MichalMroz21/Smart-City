@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:latlong2/latlong.dart';
 
 class LocationSelector extends StatelessWidget {
   static const List<String> _kOptions = <String>[
@@ -9,7 +12,11 @@ class LocationSelector extends StatelessWidget {
     'pg',
   ];
 
-  const LocationSelector({super.key});
+  final MapController mapController; 
+
+  static Map<String, List<double>> locations = {};
+
+  const LocationSelector({super.key, required this.mapController});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,6 +45,8 @@ class LocationSelector extends StatelessWidget {
 
               if (response.statusCode == 200) {
 
+                  locations = {};
+
                   String resp = response.body;
 
                   // Parse the JSON string
@@ -47,8 +56,9 @@ class LocationSelector extends StatelessWidget {
 
                   // Extract points from the JSON
                   for(var data in jsonData){
-                    print(data);
-                      results.add(data["display_name"].toString());
+                      String name = data["display_name"].toString();
+                      results.add(name);
+                      locations[name] = [double.parse(data["lat"].toString()), double.parse(data["lon"].toString())];
                   }
 
                   Iterable<String> iter = results;
@@ -60,6 +70,8 @@ class LocationSelector extends StatelessWidget {
             },
             onSelected: (String selection) {
               debugPrint('You just selected $selection');
+              List<double> points = locations[selection]!;
+              mapController.move(LatLng(points[0], points[1]), mapController.zoom);
             },
           ),
         ),
