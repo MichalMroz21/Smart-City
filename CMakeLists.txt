@@ -39,6 +39,8 @@ qt_add_qml_module(appSmartCity
 
     QML_FILES ${QML_FILES}
     RESOURCES ${RESOURCES}
+    SOURCES src_gui/path.h src_gui/path.cpp
+    SOURCES src_gui/place.h src_gui/place.cpp
 )
 
 #CMakeConfig.hpp - constants from cmake for the entire project to use
