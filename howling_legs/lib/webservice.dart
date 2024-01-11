@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Webservice {
-  static int time = 0;
+  //static int time = 0;
 
   static bool isNumeric(String s) {
     if (s == null) {
@@ -52,10 +52,15 @@ class Webservice {
         var tags = data["tags"];
         if (tags["name"] != null) {
           Place p = Place(
-              name: tags["name"] + " "
-              + (tags["addr:street"] == null ? " " : tags["addr:street"] + ", ") 
-              + (tags["addr:housenumber"] == null ? " " : tags["addr:housenumber"] + ", ") 
-              + (tags["addr:city"] == null ? " " : tags["addr:city"]),
+              name: tags["name"] +
+                  " " +
+                  (tags["addr:street"] == null
+                      ? " "
+                      : tags["addr:street"] + ", ") +
+                  (tags["addr:housenumber"] == null
+                      ? " "
+                      : tags["addr:housenumber"] + ", ") +
+                  (tags["addr:city"] == null ? " " : tags["addr:city"]),
               latitude: double.parse(data["lat"].toString()),
               longitude: double.parse(data["lon"].toString()));
           results.add(p);
@@ -140,7 +145,7 @@ class Webservice {
 
       String pointsStr =
           jsonData['paths'][0]['points']['coordinates'].toString();
-      time = int.parse(jsonData['paths'][0]['time']);
+      //time = int.parse(jsonData['paths'][0]['time']);
 
       List<List<double>> points = [];
 
