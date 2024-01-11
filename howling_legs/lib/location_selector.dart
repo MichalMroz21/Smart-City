@@ -51,6 +51,7 @@ class _LocationSelectorState extends State<LocationSelector> {
   TextEditingController categoryController =
       TextEditingController(text: "none");
   Map<String, List<double>> positions = {};
+  Map<String, Marker> markerMap = {};
   Iterable<Place> promptedPlaces = [];
 
   Map<String, Icon> categoryIconMap = {
@@ -84,21 +85,22 @@ class _LocationSelectorState extends State<LocationSelector> {
     }
   }
 
-  Future<Iterable<String>> callBox(String textEditingValue) async {
-    prompt = (currCategory == "none" ? textEditingValue : currCategory);
+  Future<Iterable<String>> callBox(String str) async {
+    prompt = (currCategory == "none" ? str : currCategory);
     isCategory = (currCategory != "none");
 
     if (prompt == '') {
+      promptedPlaces = [];
       return const Iterable<String>.empty();
     }
-    Iterable<Place> promptedPlaces =
-        await Webservice.searchPrompts(prompt, isCategory);
+    promptedPlaces = await Webservice.searchPrompts(prompt, isCategory);
 
     if (isCategory) {
       for (var promptedPlace in promptedPlaces) {
-        if (isCategory)
+        if (isCategory) {
           addMarker(promptedPlace.latitude, promptedPlace.longitude,
               categoryIconMap[currCategory]!);
+        }
         positions[promptedPlace.name] = [
           promptedPlace.latitude,
           promptedPlace.longitude
@@ -144,41 +146,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                               child: Autocomplete<String>(
                                 optionsBuilder:
                                     (TextEditingValue textEditingValue) async {
-                                  prompt = (currCategory == "none"
-                                      ? textEditingValue.text
-                                      : currCategory);
-                                  isCategory = (currCategory != "none");
-
-                                  if (prompt == '') {
-                                    promptedPlaces = [];
-                                    return const Iterable<String>.empty();
-                                  }
-                                  promptedPlaces =
-                                      await Webservice.searchPrompts(
-                                          prompt, isCategory);
-
-                                  if (isCategory) {
-                                    for (var promptedPlace in promptedPlaces) {
-                                      if (isCategory)
-                                        addMarker(
-                                            promptedPlace.latitude,
-                                            promptedPlace.longitude,
-                                            categoryIconMap[currCategory]!);
-                                      positions[promptedPlace.name] = [
-                                        promptedPlace.latitude,
-                                        promptedPlace.longitude
-                                      ];
-                                    }
-
-                                    return promptedPlaces.map((e) => e.name);
-                                    // {
-                                    //   return option
-                                    //       .contains(textEditingValue.text.toLowerCase());
-                                    // });
-                                    //;
-                                  }
-                                  return List.empty();
-                                  //return callBox(textEditingValue.text);
+                                  return callBox(textEditingValue.text);
                                 },
                                 optionsViewBuilder:
                                     (context, onSelected, options) {
