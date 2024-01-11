@@ -30,23 +30,7 @@ class _PathtCreatorState extends State<PathCreator> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(children: [
-          PlacesPath(
-            places: places,
-            onRemove: (p) {
-              places.remove(p);
-            },
-          ),
-        ]),
-        // Column(
-        //   children: [
-        //     // PlacesList(points: [
-        //     //   Place(),
-        //     //   Place(address: 'bb', onclick: addItemToList)
-        //     // ])
-        //   ],
-        // )
+      children: [        
       ],
     );
   }
