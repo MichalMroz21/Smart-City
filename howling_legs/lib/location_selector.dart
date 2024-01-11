@@ -35,9 +35,9 @@ enum Category {
   none('category', Icons.location_pin, Colors.grey),
   bank('bank', Icons.attach_money, Colors.green),
   hospital('pharmacy', Icons.local_hospital, Colors.red),
-  pub('pub', Icons.local_bar, Colors.pink),
-  shop('shop', Icons.shop, Colors.amber),
-  postOffice('post_office', Icons.local_post_office, Colors.deepPurple);
+  pub('pub', Icons.local_bar, Colors.pink);
+  //shop('shop', Icons.shop, Colors.amber),
+  //postOffice('post_office', Icons.local_post_office, Colors.deepPurple);
 
   const Category(this.label, this.icon, this.color);
   final String label;
