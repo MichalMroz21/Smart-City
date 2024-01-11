@@ -32,7 +32,7 @@ class LocationSelector extends StatefulWidget {
 }
 
 enum Category {
-  none('none', Icons.location_pin, Colors.grey),
+  none('category', Icons.location_pin, Colors.grey),
   bank('bank', Icons.attach_money, Colors.green),
   hospital('hospital', Icons.local_hospital, Colors.red),
   pub('pub', Icons.local_bar, Colors.pink);
@@ -47,15 +47,15 @@ class _LocationSelectorState extends State<LocationSelector> {
   List<Place> places = [];
   String prompt = "";
   bool isCategory = false;
-  String currCategory = "none";
+  String currCategory = "category";
   TextEditingController categoryController =
-      TextEditingController(text: "none");
+      TextEditingController(text: "category");
   Map<String, List<double>> positions = {};
   Map<String, Marker> markerMap = {};
   Iterable<Place> promptedPlaces = [];
 
   Map<String, Widget> categoryIconMap = {
-    "none": const CircleAvatar(
+    "category": const CircleAvatar(
       backgroundColor: Colors.red,
       child: Icon(Icons.location_pin, size: 30.0, color: Colors.white),
     ),
@@ -98,8 +98,8 @@ class _LocationSelectorState extends State<LocationSelector> {
   }
 
   Future<Iterable<String>> callBox(String str) async {
-    prompt = (currCategory == "none" ? str : currCategory);
-    isCategory = (currCategory != "none");
+    prompt = (currCategory == "category" ? str : currCategory);
+    isCategory = (currCategory != "category");
 
     if (prompt == '') {
       promptedPlaces = [];
