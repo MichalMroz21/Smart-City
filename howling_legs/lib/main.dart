@@ -180,23 +180,25 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            bottom: 200,
-            child: TextButton(
-              onPressed: () async {
-                Position userPosition = await determinePosition();
-                addMarker(userPosition.latitude, userPosition.longitude,
-                    Icon(Icons.person));
+              top: 30,
+              left: 620,
+              child: ElevatedButton(
+                  onPressed: () async {
+                    Position userPosition = await determinePosition();
+                    addMarker(userPosition.latitude, userPosition.longitude,
+                        Icon(Icons.person));
 
-                List<Location> mevoPosition = await FindNearestMevo(Location(
-                    latitude: userPosition.latitude,
-                    longitude: userPosition.longitude,
-                    timestamp: DateTime.now()));
-                mevoPosition.forEach((station) => addMarker(station.latitude,
-                    station.longitude, Icon(Icons.pedal_bike)));
-              },
-              child: const Text('find mevo'),
-            ),
-          ),
+                    List<Location> mevoPosition = await FindNearestMevo(
+                        Location(
+                            latitude: userPosition.latitude,
+                            longitude: userPosition.longitude,
+                            timestamp: DateTime.now()));
+                    mevoPosition.forEach((station) => addMarker(
+                        station.latitude,
+                        station.longitude,
+                        Icon(Icons.pedal_bike)));
+                  },
+                  child: const Text('Find Mevo')))
         ],
       ),
     );
