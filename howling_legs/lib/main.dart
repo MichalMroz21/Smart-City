@@ -118,57 +118,58 @@ class _MyHomePageState extends State<MyHomePage> {
               PolylineLayer(polylines: polylines),
             ],
           ),
+          // Positioned(
+          //   top: 20,
+          //   left: 20,
+          //   child: ElevatedButton(
+          //     onPressed: () async {
+          //       //mapController.move(const LatLng(0.0, 0.0), 10.0);
+          //       debugPrint(await _determineAddress()
+          //           .then((value) => value.streetAddress));
+          //       debugPrint(await _determinePosition(
+          //               "532 S Olive St, Los Angeles, CA 90013")
+          //           .then((value) =>
+          //               value.latitude.toString() +
+          //               value.longitude.toString()));
+          //       addMarker(54.34663, 18.64392,
+          //           Icon(Icons.location_on, size: 30.0, color: Colors.red));
+          //     },
+          //     child: const Text('Go to Address'),
+          //   ),
+          // ),
+          // Positioned(
+          //   top: 60,
+          //   left: 20,
+          //   child: ElevatedButton(
+          //     onPressed: () async {
+          //       List<List<double>> points = await Webservice.pathBetweenPoints([
+          //         Location(
+          //           latitude: 54.510225,
+          //           longitude: 18.483229,
+          //           timestamp: DateTime.now(),
+          //         ),
+          //         Location(
+          //           latitude: 54.502609,
+          //           longitude: 18.502044,
+          //           timestamp: DateTime.now(),
+          //         ),
+          //         Location(
+          //           latitude: 54.481975,
+          //           longitude: 18.513702,
+          //           timestamp: DateTime.now(),
+          //         ),
+          //       ]);
+
+          //       debugPrint("response:");
+          //       print(points);
+
+          //       addPath(points, Colors.red);
+          //     },
+          //     child: const Text('Ask Kamil'),
+          //   ),
+          // ),
           Positioned(
             top: 20,
-            left: 20,
-            child: ElevatedButton(
-              onPressed: () async {
-                //mapController.move(const LatLng(0.0, 0.0), 10.0);
-                debugPrint(await _determineAddress()
-                    .then((value) => value.streetAddress));
-                debugPrint(await _determinePosition(
-                        "532 S Olive St, Los Angeles, CA 90013")
-                    .then((value) =>
-                        value.latitude.toString() +
-                        value.longitude.toString()));
-                addMarker(54.34663, 18.64392, Icon(Icons.location_on, size: 30.0, color: Colors.red));
-              },
-              child: const Text('Go to Address'),
-            ),
-          ),
-          Positioned(
-            top: 60,
-            left: 20,
-            child: ElevatedButton(
-              onPressed: () async {
-                List<List<double>> points = await Webservice.pathBetweenPoints([
-                  Location(
-                    latitude: 54.510225,
-                    longitude: 18.483229,
-                    timestamp: DateTime.now(),
-                  ),
-                  Location(
-                    latitude: 54.502609,
-                    longitude: 18.502044,
-                    timestamp: DateTime.now(),
-                  ),
-                  Location(
-                    latitude: 54.481975,
-                    longitude: 18.513702,
-                    timestamp: DateTime.now(),
-                  ),
-                ]);
-
-                debugPrint("response:");
-                print(points);
-
-                addPath(points, Colors.red);
-              },
-              child: const Text('Ask Kamil'),
-            ),
-          ),
-          Positioned(
-            top: 120,
             left: 20,
             child: LocationSelector(
               mapController: mapController,
