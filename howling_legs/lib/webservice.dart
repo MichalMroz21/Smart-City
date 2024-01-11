@@ -59,6 +59,9 @@ class Webservice {
         }
       }
     }
+    if (results.isEmpty) {
+      return [];
+    }
     return results;
   }
 
@@ -99,6 +102,9 @@ class Webservice {
             longitude: double.parse(data["lon"].toString()));
         results.add(p);
       }
+    }
+    if (results.isEmpty) {
+      return [];
     }
     return results;
   }
