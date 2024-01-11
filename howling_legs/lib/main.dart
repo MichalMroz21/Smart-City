@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Smart City',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -193,8 +194,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         timestamp: DateTime.now()));
                   }
                   coordinates = await Webservice.pathBetweenPoints(locations);
-
                   addPath(coordinates, Colors.red);
+                  for (Place place in places) {
+                    addMarker(
+                        place.latitude,
+                        place.longitude,
+                        const CircleAvatar(
+                          backgroundColor: Colors.yellow,
+                          child: Icon(
+                            Icons.star,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                        width: 40,
+                        height: 40);
+                  }
                 }
                 setState(() {});
               },
