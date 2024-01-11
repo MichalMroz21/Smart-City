@@ -25,6 +25,13 @@ class Webservice {
       case "pub":
         cat = "restaurant";
         break;
+      case "shop":
+        tag = "shop";
+        cat = "*";
+        break;
+      case "post-office":
+        cat = "post-office";
+        break;
     }
     String url =
         'http://overpass-api.de/api/interpreter/?data=[out:json][timeout:25];node["$tag"="$cat"](54.23674151771537,18.310780371668695,54.59832341427045,18.815464819910883);out geom;';
