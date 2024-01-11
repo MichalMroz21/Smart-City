@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:howling_legs/PathCreator.dart';
 import 'package:howling_legs/PlacesPath.dart';
+import 'package:howling_legs/option.dart';
 import 'package:howling_legs/webservice.dart';
 
 import 'Place.dart';
@@ -56,6 +57,21 @@ class _LocationSelectorState extends State<LocationSelector> {
                       //       .contains(textEditingValue.text.toLowerCase());
                       // });
                       //;
+                    },
+                    optionsViewBuilder: (context, onSelected, options) {
+                      return Column(
+                        children: options
+                            .map(
+                              (e) => Option(
+                                name: e,
+                                onGoTo: () {
+                                  debugPrint("eeee");
+                                },
+                                onClick: () {},
+                              ),
+                            )
+                            .toList(),
+                      );
                     },
                     onSelected: (String selection) async {
                       Iterable<Place> promptedPlaces =

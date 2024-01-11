@@ -168,8 +168,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            top: 20,
-            right: 80,
+            top: 120,
+            left: 20,
             child: LocationSelector(
               mapController: mapController,
               pathCreator: pathCrator,
