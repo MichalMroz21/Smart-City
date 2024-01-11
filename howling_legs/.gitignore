@@ -41,3 +41,15 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+.dart_tool/package_config.json
+.dart_tool/package_config_subset
+.flutter-plugins
+.flutter-plugins-dependencies
+.gitignore
+android/local.properties
+build/dd704641fca0f13458e044aee43be5d8.cache.dill.track.dill
+build/flutter_assets/shaders/ink_sparkle.frag
+linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux
+windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows
+
