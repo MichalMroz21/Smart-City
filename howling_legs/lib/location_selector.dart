@@ -225,6 +225,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                             onSelected: (value) {
                               setState(() {
                                 currCategory = value!.label;
+                                widget.markers.clear();
                                 callBox(currCategory);
                               });
                             },
