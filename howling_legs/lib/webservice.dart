@@ -13,7 +13,7 @@ class Webservice {
   }
 
   static Future<Iterable<Place>> searchByCategory(String category) async {
-    String tag = "anemity";
+    String tag = "amenity";
     String cat = "restaurant";
     switch (category) {
       case "bank":
