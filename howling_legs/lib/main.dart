@@ -194,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                   coordinates = await Webservice.pathBetweenPoints(locations);
 
-                  addPath(coordinates, Colors.blue);
+                  addPath(coordinates, Colors.red);
                 }
                 setState(() {});
               },
@@ -204,42 +204,50 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 30,
               left: 620,
               child: ElevatedButton(
-                  onPressed: () async {
-                    Position userPosition = await determinePosition();
-                    addMarker(
-                        userPosition.latitude,
-                        userPosition.longitude,
-                        const CircleAvatar(
-                          backgroundColor: Colors.blue,
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 30,
-                          ),
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.red)),
+                onPressed: () async {
+                  Position userPosition = await determinePosition();
+                  addMarker(
+                      userPosition.latitude,
+                      userPosition.longitude,
+                      const CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.white,
+                          size: 30,
                         ),
-                        width: 40,
-                        height: 40);
+                      ),
+                      width: 40,
+                      height: 40);
 
-                    List<Location> mevoPosition = await FindNearestMevo(
-                        Location(
-                            latitude: userPosition.latitude,
-                            longitude: userPosition.longitude,
-                            timestamp: DateTime.now()));
-                    mevoPosition.forEach((station) => addMarker(
-                        station.latitude,
-                        station.longitude,
-                        const CircleAvatar(
-                          backgroundColor: Colors.red,
-                          child: Icon(
-                            Icons.pedal_bike,
-                            color: Colors.white,
-                            size: 30,
-                          ),
+                  List<Location> mevoPosition = await FindNearestMevo(Location(
+                      latitude: userPosition.latitude,
+                      longitude: userPosition.longitude,
+                      timestamp: DateTime.now()));
+                  mevoPosition.forEach((station) => addMarker(
+                      station.latitude,
+                      station.longitude,
+                      const CircleAvatar(
+                        backgroundColor: Colors.red,
+                        child: Icon(
+                          Icons.pedal_bike,
+                          color: Colors.white,
+                          size: 30,
                         ),
-                        width: 40,
-                        height: 40));
-                  },
-                  child: const Text('Find Mevo')))
+                      ),
+                      width: 40,
+                      height: 40));
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Find Mevo',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ),
+              ))
         ],
       ),
     );

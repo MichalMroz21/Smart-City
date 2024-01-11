@@ -55,26 +55,22 @@ class _LocationSelectorState extends State<LocationSelector> {
   Iterable<Place> promptedPlaces = [];
 
   Map<String, Widget> categoryIconMap = {
-    "none": 
-      const CircleAvatar(
-        backgroundColor: Colors.red,                                                   
-        child: Icon(Icons.location_pin, size: 30.0, color: Colors.white),                                  
-      ),    
-    "bank":
-      const CircleAvatar(
-        backgroundColor: Colors.green,                                                   
-        child: Icon(Icons.attach_money, size: 30.0, color: Colors.white),                                  
-      ),
-    "hospital": 
-      const CircleAvatar(
-        backgroundColor: Colors.red,                                                   
-        child:Icon(Icons.local_hospital, size: 30.0, color: Colors.white),
-      ),    
-    "pub": 
-      const CircleAvatar(
-        backgroundColor: Colors.pink,                                                   
-        child:Icon(Icons.local_bar, size: 30.0, color: Colors.white),
-      )             
+    "none": const CircleAvatar(
+      backgroundColor: Colors.red,
+      child: Icon(Icons.location_pin, size: 30.0, color: Colors.white),
+    ),
+    "bank": const CircleAvatar(
+      backgroundColor: Colors.green,
+      child: Icon(Icons.attach_money, size: 30.0, color: Colors.white),
+    ),
+    "hospital": const CircleAvatar(
+      backgroundColor: Colors.red,
+      child: Icon(Icons.local_hospital, size: 30.0, color: Colors.white),
+    ),
+    "pub": const CircleAvatar(
+      backgroundColor: Colors.pink,
+      child: Icon(Icons.local_bar, size: 30.0, color: Colors.white),
+    )
   };
 
   static void categoryChange(dynamic newCategory) {
@@ -149,7 +145,7 @@ class _LocationSelectorState extends State<LocationSelector> {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                    color: Colors.white70,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Column(
                   children: [

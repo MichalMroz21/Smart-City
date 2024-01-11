@@ -14,7 +14,7 @@ class PathNode extends StatelessWidget {
       children: [
         Container(
           decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 20, 99, 43),
+            color: Colors.red,
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
           child: SizedBox(
