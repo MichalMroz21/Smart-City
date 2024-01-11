@@ -8,11 +8,9 @@ import 'dart:convert' as convert;
 import 'package:location/location.dart' as LocationGetter;
 
 
-Future<List<Location>> FindNearestMevo(Location userPosition) async {
+Future<List<Location>> FindNearestMevo(Location userPosition, {int maxStations =10}) async {
   var stationsURL = Uri.parse('https://gbfs.urbansharing.com/rowermevo.pl/station_information.json');
-  var response = await http.get(stationsURL);
-
-  const MAX_STATIONS = 10;
+  var response = await http.get(stationsURL);  
 
   if (response.statusCode == 200) {
     var stationsJson = convert.jsonDecode(response.body) as Map<String, dynamic>;
@@ -31,7 +29,7 @@ Future<List<Location>> FindNearestMevo(Location userPosition) async {
       bestStations.add(station);
       //check if too many stations      
       int furthestStation=0;
-      if(bestStations.length > MAX_STATIONS){
+      if(bestStations.length > maxStations){
         //find the furthest
         for(int i=0;i<bestStations.length;i++){
           if(bestStations[furthestStation].distance < bestStations[i].distance){
