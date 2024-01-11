@@ -1,5 +1,7 @@
-2024/01/10-23:17:22.840 5ef8 Reusing MANIFEST C:\Users\Adam\AppData\Local\Temp\flutter_tools.2484a971\flutter_tools_chrome_device.20c05aa4\Default\Local Storage\leveldb/MANIFEST-000001
-2024/01/10-23:17:22.848 5ef8 Recovering log #6
-2024/01/10-23:17:22.860 5ef8 Reusing old log C:\Users\Adam\AppData\Local\Temp\flutter_tools.2484a971\flutter_tools_chrome_device.20c05aa4\Default\Local Storage\leveldb/000006.log 
-2024/01/10-23:17:22.863 5ef8 Delete type=0 #3
-2024/01/10-23:17:22.863 5ef8 Delete type=0 #4
+2024/01/11-02:35:02.021 5e0c Reusing MANIFEST C:\Users\Adam\AppData\Local\Temp\flutter_tools.fd46ff39\flutter_tools_chrome_device.4353521a\Default\Local Storage\leveldb/MANIFEST-000001
+2024/01/11-02:35:02.023 5e0c Recovering log #6
+2024/01/11-02:35:02.030 5e0c Reusing old log C:\Users\Adam\AppData\Local\Temp\flutter_tools.fd46ff39\flutter_tools_chrome_device.4353521a\Default\Local Storage\leveldb/000006.log 
+2024/01/11-02:35:02.038 5e0c Delete type=0 #3
+2024/01/11-02:35:02.038 5e0c Delete type=0 #4
+2024/01/11-02:35:02.039 5e0c Delete type=2 #5
+2024/01/11-02:35:02.039 5e0c Delete type=2 #7
