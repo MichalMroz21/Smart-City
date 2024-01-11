@@ -47,6 +47,7 @@ class _LocationSelectorState extends State<LocationSelector> {
   String currCategory = "bank";
   TextEditingController categoryController =
       TextEditingController(text: "none");
+  Map<String, List<double>> positions = {};
 
   Map<String, Icon> categoryIconMap = {
     "none": Icon(Icons.question_mark),
@@ -103,19 +104,25 @@ class _LocationSelectorState extends State<LocationSelector> {
 
                           if (isCategory) {
                             for (var promptedPlace in promptedPlaces) {
-                              addMarker(
-                                  promptedPlace.latitude,
-                                  promptedPlace.longitude,
-                                  categoryIconMap[currCategory]!);
+                              if (isCategory)
+                                addMarker(
+                                    promptedPlace.latitude,
+                                    promptedPlace.longitude,
+                                    categoryIconMap[currCategory]!);
+                              positions[promptedPlace.name] = [
+                                promptedPlace.latitude,
+                                promptedPlace.longitude
+                              ];
                             }
-                          }
 
-                          return promptedPlaces.map((e) => e.name);
-                          // {
-                          //   return option
-                          //       .contains(textEditingValue.text.toLowerCase());
-                          // });
-                          //;
+                            return promptedPlaces.map((e) => e.name);
+                            // {
+                            //   return option
+                            //       .contains(textEditingValue.text.toLowerCase());
+                            // });
+                            //;
+                          }
+                          return List.empty();
                         },
                         optionsViewBuilder: (context, onSelected, options) {
                           return Column(
@@ -124,7 +131,10 @@ class _LocationSelectorState extends State<LocationSelector> {
                                   (e) => Option(
                                     name: e,
                                     onGoTo: () {
-                                      debugPrint("eeee");
+                                      List<double> pos = positions[e]!;
+                                      widget.mapController.move(
+                                          LatLng(pos[0], pos[1]),
+                                          widget.mapController.zoom);
                                     },
                                     onClick: () {},
                                   ),
