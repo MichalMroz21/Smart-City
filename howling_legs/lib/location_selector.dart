@@ -62,15 +62,13 @@ class _LocationSelectorState extends State<LocationSelector> {
     return;
   }
 
-  Marker addMarker(double latitude, double longitude, Icon icon) {
-    Marker m = Marker(
+  void addMarker(double latitude, double longitude, Icon icon) {
+    widget.markers.add(Marker(
       point: LatLng(latitude, longitude),
       width: 80,
       height: 80,
       child: icon,
-    );
-    widget.markers.add(m);
-    return m;
+    ));
   }
 
   Future<Iterable<String>> callBox(String str) async {
@@ -90,12 +88,10 @@ class _LocationSelectorState extends State<LocationSelector> {
 
       for (var promptedPlace in promptedPlaces) {
         if (isCategory){
-          Marker m = addMarker(
+          addMarker(
               promptedPlace.latitude,
               promptedPlace.longitude,
               categoryIconMap[currCategory]!);
-
-          markerMap[promptedPlace.name] = m;
         }
         positions[promptedPlace.name] = [
           promptedPlace.latitude,
@@ -134,8 +130,8 @@ class _LocationSelectorState extends State<LocationSelector> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Autocomplete<String>(
                         optionsBuilder:
-                            (TextEditingValue textEditingValue) async {
-                          return callBox(textEditingValue.text);
+                            (TextEditingValue textEditingValue) async {                    
+                              return callBox(textEditingValue.text);
                         },
                         optionsViewBuilder: (context, onSelected, options) {
                           return SizedBox(
@@ -207,20 +203,6 @@ class _LocationSelectorState extends State<LocationSelector> {
                       onSelected: (value) {
                         setState(() {
                           currCategory = value!.label;
-
-                          for(var marker in markerMap.values){
-                              int i = -1;
-
-                              for(int j = 0; j < widget.markers.length; j++){
-                                  if(widget.markers[j] == marker) { 
-                                      i = j;
-                                      break;
-                                  }
-                              }
-
-                              if(i != -1) widget.markers.removeAt(i);
-                          }
-
                           callBox(currCategory);
                         });
                       },
