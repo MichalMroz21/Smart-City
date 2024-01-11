@@ -32,7 +32,12 @@ class _PathtCreatorState extends State<PathCreator> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(children: [
-          PlacesPath(places: places),
+          PlacesPath(
+            places: places,
+            onRemove: (p) {
+              places.remove(p);
+            },
+          ),
         ]),
         // Column(
         //   children: [

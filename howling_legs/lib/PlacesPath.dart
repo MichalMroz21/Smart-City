@@ -4,9 +4,10 @@ import 'package:howling_legs/path_node.dart';
 import 'Place.dart';
 
 class PlacesPath extends StatefulWidget {
-  const PlacesPath({super.key, required this.places});
+  const PlacesPath({super.key, required this.places, required this.onRemove});
 
   final List<Place> places;
+  final Function(Place)? onRemove;
 
   @override
   State<StatefulWidget> createState() {
@@ -29,6 +30,7 @@ class _PlacesPathtState extends State<PlacesPath> {
                         place: e,
                         remove: () {
                           widget.places.remove(e);
+                          widget.onRemove!(e);
                           setState(() {});
                         },
                       ),

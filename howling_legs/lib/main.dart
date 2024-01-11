@@ -59,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     polylines.add(Polyline(points: pointsLat, color: color, strokeWidth: 5));
+    debugPrint(polylines.length.toString());
   }
 
   Future<Address> _determineAddress() async {
@@ -83,7 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return coordinates;
   }
 
-  void addMarker(double latitude, double longitude, Widget icon, {width=80,height=80}) {
+  void addMarker(double latitude, double longitude, Widget icon,
+      {width = 80, height = 80}) {
     markers.add(Marker(
       point: LatLng(latitude, longitude),
       width: width,
@@ -179,6 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
               pathCreator: pathCrator,
               markers: markers,
               onDraw: (List<Place> places) async {
+                polylines.clear();
                 if (places.length > 1) {
                   debugPrint(places.length.toString());
                   List<List<double>> coordinates = [];
@@ -193,6 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   addPath(coordinates, Colors.blue);
                 }
+                setState(() {});
               },
             ),
           ),
@@ -202,16 +206,18 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ElevatedButton(
                   onPressed: () async {
                     Position userPosition = await determinePosition();
-                    addMarker(userPosition.latitude, userPosition.longitude,
+                    addMarker(
+                        userPosition.latitude,
+                        userPosition.longitude,
                         const CircleAvatar(
-                          backgroundColor: Colors.blue,                                                   
+                          backgroundColor: Colors.blue,
                           child: Icon(
                             Icons.person,
                             color: Colors.white,
                             size: 30,
-                          ),                                                    
+                          ),
                         ),
-                        width:40,
+                        width: 40,
                         height: 40);
 
                     List<Location> mevoPosition = await FindNearestMevo(
@@ -223,17 +229,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         station.latitude,
                         station.longitude,
                         const CircleAvatar(
-                          backgroundColor: Colors.red,                                                   
+                          backgroundColor: Colors.red,
                           child: Icon(
                             Icons.pedal_bike,
                             color: Colors.white,
                             size: 30,
-                          ),                          
-                          
+                          ),
                         ),
-                        width:40,
-                        height: 40
-                        ));
+                        width: 40,
+                        height: 40));
                   },
                   child: const Text('Find Mevo')))
         ],
