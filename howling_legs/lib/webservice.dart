@@ -13,7 +13,7 @@ class Webservice {
   }
 
   static Future<Iterable<Place>> searchPrompts(String prompt, bool isCategory) async {
-    
+
     if (prompt == '') {
       return const Iterable<Place>.empty();
     }
@@ -23,7 +23,7 @@ class Webservice {
     if(isCategory) search = "amenity";
     else search = "q";
 
-    String url = "http://192.168.1.121:8080/search.php?" + search + "=$prompt";
+    String url = "http://192.168.1.121:8080/search.php?" + search + "=$prompt" + "&limit=500";
 
     var request = Uri.parse(url);
 

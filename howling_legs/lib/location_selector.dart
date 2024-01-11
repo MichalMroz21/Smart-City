@@ -30,6 +30,7 @@ class _LocationSelectorState extends State<LocationSelector> {
   String prompt = "";
   bool isCategory = false;
   String currCategory = "bank";
+  Map<String, List<double>> positions = {};
 
   Map<String, Icon> categoryIconMap = {
     "bank" : Icon(Icons.attach_money, size: 30.0, color: Colors.green),
@@ -78,10 +79,9 @@ class _LocationSelectorState extends State<LocationSelector> {
                           Iterable<Place> promptedPlaces =
                               await Webservice.searchPrompts(prompt, isCategory);
 
-                          if(isCategory){
-                            for(var promptedPlace in promptedPlaces){
-                                addMarker(promptedPlace.latitude, promptedPlace.longitude, categoryIconMap[currCategory]!);
-                            }
+                          for(var promptedPlace in promptedPlaces){
+                              if(isCategory) addMarker(promptedPlace.latitude, promptedPlace.longitude, categoryIconMap[currCategory]!);
+                              positions[promptedPlace.name] = [promptedPlace.latitude, promptedPlace.longitude];
                           }
 
                           return promptedPlaces.map((e) => e.name);
@@ -98,7 +98,8 @@ class _LocationSelectorState extends State<LocationSelector> {
                               (e) => Option(
                                 name: e,
                                 onGoTo: () {
-                                  debugPrint("eeee");
+                                  List<double> pos = positions[e]!;
+                                  widget.mapController.move(LatLng(pos[0], pos[1]), widget.mapController.zoom);
                                 },
                                 onClick: () {},
                               ),
