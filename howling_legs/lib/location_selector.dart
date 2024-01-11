@@ -75,10 +75,6 @@ class _LocationSelectorState extends State<LocationSelector> {
     )
   };
 
-  static void categoryChange(dynamic newCategory) {
-    return;
-  }
-
   void addMarker(double latitude, double longitude, Widget icon) {
     widget.markers.add(Marker(
       point: LatLng(latitude, longitude),
