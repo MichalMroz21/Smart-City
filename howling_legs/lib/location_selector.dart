@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:howling_legs/PathCreator.dart';
+import 'package:howling_legs/Place.dart';
 import 'package:howling_legs/PlacesPath.dart';
 import 'package:howling_legs/option.dart';
 import 'package:howling_legs/webservice.dart';
@@ -88,11 +89,6 @@ class _LocationSelectorState extends State<LocationSelector> {
               ),
             ],
           ),
-        ),
-        Column(
-          children: [
-            PlacesPath(places: places),
-          ],
         ),
       ],
     );
