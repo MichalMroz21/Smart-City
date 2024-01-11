@@ -10,10 +10,10 @@ class TimeDisplay extends StatelessWidget {
       decoration: const BoxDecoration(color: Colors.red),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Text(
-          (Webservice.time / 60000).toString(),
-          style: const TextStyle(color: Colors.white),
-        ),
+        // child: Text(
+        //   (Webservice.time / 60000).toString(),
+        //   style: const TextStyle(color: Colors.white),
+        // ),
       ),
     );
   }

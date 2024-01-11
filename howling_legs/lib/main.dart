@@ -216,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
-          const Positioned(bottom: 10, right: 30, child: TimeDisplay()),
+          //const Positioned(bottom: 10, right: 30, child: TimeDisplay()),
           Positioned(
               top: 30,
               left: 620,
