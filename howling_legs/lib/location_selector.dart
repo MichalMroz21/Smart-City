@@ -113,14 +113,14 @@ class _LocationSelectorState extends State<LocationSelector> {
     if (isCategory) {
       promptedPlaces = await Webservice.searchByCategory(currCategory);
       for (var promptedPlace in promptedPlaces) {
-        if (isCategory) {
+
           addMarker(promptedPlace.latitude, promptedPlace.longitude,
               categoryIconMap[currCategory]!);
-        }
-        positions[promptedPlace.name] = [
-          promptedPlace.latitude,
-          promptedPlace.longitude
-        ];
+        
+          positions[promptedPlace.name] = [
+            promptedPlace.latitude,
+            promptedPlace.longitude
+          ];
       }
 
       return promptedPlaces.map((e) => e.name);
@@ -131,6 +131,13 @@ class _LocationSelectorState extends State<LocationSelector> {
       //;
     } else {
       promptedPlaces = await Webservice.searchPrompts(prompt, false);
+
+      for (var promptedPlace in promptedPlaces) {
+          positions[promptedPlace.name] = [
+            promptedPlace.latitude,
+            promptedPlace.longitude
+          ];
+      }
       return promptedPlaces.map((e) => e.name);
     }
     return List.empty();
