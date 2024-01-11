@@ -34,7 +34,7 @@ class LocationSelector extends StatefulWidget {
 enum Category {
   none('category', Icons.location_pin, Colors.grey),
   bank('bank', Icons.attach_money, Colors.green),
-  hospital('hospital', Icons.local_hospital, Colors.red),
+  hospital('pharmacy', Icons.local_hospital, Colors.red),
   pub('pub', Icons.local_bar, Colors.pink),
   shop('shop', Icons.shop, Colors.amber),
   postOffice('post_office', Icons.local_post_office, Colors.deepPurple);
@@ -65,7 +65,7 @@ class _LocationSelectorState extends State<LocationSelector> {
       backgroundColor: Colors.green,
       child: Icon(Icons.attach_money, size: 30.0, color: Colors.white),
     ),
-    "hospital": const CircleAvatar(
+    "pharmacy": const CircleAvatar(
       backgroundColor: Colors.red,
       child: Icon(Icons.local_hospital, size: 30.0, color: Colors.white),
     ),
@@ -106,18 +106,19 @@ class _LocationSelectorState extends State<LocationSelector> {
 
     if (isCategory) {
       promptedPlaces = await Webservice.searchByCategory(currCategory);
-      for (var promptedPlace in promptedPlaces) {
+      if (promptedPlaces.isEmpty) return const Iterable<String>.empty();
 
-          addMarker(promptedPlace.latitude, promptedPlace.longitude,
-              categoryIconMap[currCategory]!);
-        
-          positions[promptedPlace.name] = [
-            promptedPlace.latitude,
-            promptedPlace.longitude
-          ];
+      for (var promptedPlace in promptedPlaces) {
+        addMarker(promptedPlace.latitude, promptedPlace.longitude,
+            categoryIconMap[currCategory]!);
+
+        positions[promptedPlace.name] = [
+          promptedPlace.latitude,
+          promptedPlace.longitude
+        ];
       }
 
-      return promptedPlaces.map((e) => e.name);
+      return promptedPlaces.map((e) => e.name).take(10);
       // {
       //   return option
       //       .contains(textEditingValue.text.toLowerCase());
@@ -125,14 +126,14 @@ class _LocationSelectorState extends State<LocationSelector> {
       //;
     } else {
       promptedPlaces = await Webservice.searchPrompts(prompt, false);
-
+      if (promptedPlaces.isEmpty) return const Iterable<String>.empty();
       for (var promptedPlace in promptedPlaces) {
-          positions[promptedPlace.name] = [
-            promptedPlace.latitude,
-            promptedPlace.longitude
-          ];
+        positions[promptedPlace.name] = [
+          promptedPlace.latitude,
+          promptedPlace.longitude
+        ];
       }
-      return promptedPlaces.map((e) => e.name);
+      return promptedPlaces.map((e) => e.name).take(10);
     }
     return List.empty();
   }
@@ -170,6 +171,9 @@ class _LocationSelectorState extends State<LocationSelector> {
                                 },
                                 optionsViewBuilder:
                                     (context, onSelected, options) {
+                                  if (options.isEmpty) {
+                                    return const SizedBox.shrink();
+                                  }
                                   return Column(
                                     children: options
                                         .map(
@@ -201,9 +205,14 @@ class _LocationSelectorState extends State<LocationSelector> {
                                 onSelected: (String selection) async {
                                   final FocusNode focus = Focus.of(context);
                                   final bool hasFocus = focus.hasFocus;
-                                  Iterable<Place> promptedPlaces =
-                                      await Webservice.searchPrompts(
-                                          prompt, isCategory);
+                                  try {
+                                    Iterable<Place> promptedPlaces =
+                                        await Webservice.searchPrompts(
+                                            prompt, isCategory);
+                                  } catch (e) {
+                                    debugPrint("no cóż...");
+                                  }
+
                                   setState(() {
                                     promptedPlaces = [];
                                     places.add(promptedPlaces.firstWhere(

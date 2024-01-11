@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Webservice {
+  static int time = 0;
+
   static bool isNumeric(String s) {
     if (s == null) {
       return false;
@@ -19,8 +21,8 @@ class Webservice {
       case "bank":
         cat = "bank";
         break;
-      case "hospital":
-        cat = "hospital";
+      case "pharmacy":
+        cat = "pharmacy";
         break;
       case "pub":
         cat = "restaurant";
@@ -137,6 +139,7 @@ class Webservice {
 
       String pointsStr =
           jsonData['paths'][0]['points']['coordinates'].toString();
+      time = int.parse(jsonData['paths'][0]['time']);
 
       List<List<double>> points = [];
 
