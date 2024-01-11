@@ -195,6 +195,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   coordinates = await Webservice.pathBetweenPoints(locations);
 
                   addPath(coordinates, Colors.blue);
+                  for(Place place in places){
+                    addMarker(place.latitude, place.longitude, 
+                    const CircleAvatar(
+                        backgroundColor: Colors.yellow,
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                      width: 40,
+                      height: 40
+                    );
+                  }
                 }
                 setState(() {});
               },
