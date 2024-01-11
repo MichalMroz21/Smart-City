@@ -44,7 +44,7 @@ class _LocationSelectorState extends State<LocationSelector> {
   List<Place> places = [];
   String prompt = "";
   bool isCategory = false;
-  String currCategory = "bank";
+  String currCategory = "none";
   TextEditingController categoryController =
       TextEditingController(text: "none");
   Map<String, List<double>> positions = {};
@@ -69,6 +69,42 @@ class _LocationSelectorState extends State<LocationSelector> {
     ));
   }
 
+  Future<Iterable<String>> callBox(String textEditingValue) async{
+    prompt = (currCategory == "none"
+        ? textEditingValue
+        : currCategory);
+    isCategory = (currCategory != "none");
+
+    if (prompt == '') {
+      return const Iterable<String>.empty();
+    }
+    Iterable<Place> promptedPlaces =
+        await Webservice.searchPrompts(
+            prompt, isCategory);
+
+    if (isCategory) {
+      for (var promptedPlace in promptedPlaces) {
+        if (isCategory)
+          addMarker(
+              promptedPlace.latitude,
+              promptedPlace.longitude,
+              categoryIconMap[currCategory]!);
+        positions[promptedPlace.name] = [
+          promptedPlace.latitude,
+          promptedPlace.longitude
+        ];
+      }
+
+      return promptedPlaces.map((e) => e.name);
+      // {
+      //   return option
+      //       .contains(textEditingValue.text.toLowerCase());
+      // });
+      //;
+    }
+    return List.empty();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -90,39 +126,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                       child: Autocomplete<String>(
                         optionsBuilder:
                             (TextEditingValue textEditingValue) async {
-                          prompt = (currCategory == "none"
-                              ? textEditingValue.text
-                              : currCategory);
-                          isCategory = (currCategory != "none");
-
-                          if (prompt == '') {
-                            return const Iterable<String>.empty();
-                          }
-                          Iterable<Place> promptedPlaces =
-                              await Webservice.searchPrompts(
-                                  prompt, isCategory);
-
-                          if (isCategory) {
-                            for (var promptedPlace in promptedPlaces) {
-                              if (isCategory)
-                                addMarker(
-                                    promptedPlace.latitude,
-                                    promptedPlace.longitude,
-                                    categoryIconMap[currCategory]!);
-                              positions[promptedPlace.name] = [
-                                promptedPlace.latitude,
-                                promptedPlace.longitude
-                              ];
-                            }
-
-                            return promptedPlaces.map((e) => e.name);
-                            // {
-                            //   return option
-                            //       .contains(textEditingValue.text.toLowerCase());
-                            // });
-                            //;
-                          }
-                          return List.empty();
+                              return callBox(textEditingValue.text);
                         },
                         optionsViewBuilder: (context, onSelected, options) {
                           return Column(
@@ -179,6 +183,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                       onSelected: (value) {
                         setState(() {
                           currCategory = value!.label;
+                          callBox(currCategory);
                         });
                       },
                       dropdownMenuEntries: Category.values
