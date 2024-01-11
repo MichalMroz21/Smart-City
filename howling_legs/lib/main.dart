@@ -204,11 +204,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Icon(
                             Icons.star,
                             color: Colors.white,
-                            size: 30,
+                            size: 20,
                           ),
                         ),
-                        width: 40,
-                        height: 40);
+                        width: 30,
+                        height: 30);
                   }
                 }
                 setState(() {});
@@ -231,11 +231,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Icon(
                           Icons.person,
                           color: Colors.white,
-                          size: 30,
+                          size: 20,
                         ),
                       ),
-                      width: 40,
-                      height: 40);
+                      width: 30,
+                      height: 30);
 
                   List<Location> mevoPosition = await FindNearestMevo(Location(
                       latitude: userPosition.latitude,
@@ -249,11 +249,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Icon(
                           Icons.pedal_bike,
                           color: Colors.white,
-                          size: 30,
+                          size: 20,
                         ),
                       ),
-                      width: 40,
-                      height: 40));
+                      width: 30,
+                      height: 30));
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),

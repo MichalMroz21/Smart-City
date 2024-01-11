@@ -57,19 +57,19 @@ class _LocationSelectorState extends State<LocationSelector> {
   Map<String, Widget> categoryIconMap = {
     "category": const CircleAvatar(
       backgroundColor: Colors.red,
-      child: Icon(Icons.location_pin, size: 30.0, color: Colors.white),
+      child: Icon(Icons.location_pin, size: 20.0, color: Colors.white),
     ),
     "bank": const CircleAvatar(
       backgroundColor: Colors.green,
-      child: Icon(Icons.attach_money, size: 30.0, color: Colors.white),
+      child: Icon(Icons.attach_money, size: 20.0, color: Colors.white),
     ),
     "hospital": const CircleAvatar(
       backgroundColor: Colors.red,
-      child: Icon(Icons.local_hospital, size: 30.0, color: Colors.white),
+      child: Icon(Icons.local_hospital, size: 20.0, color: Colors.white),
     ),
     "pub": const CircleAvatar(
       backgroundColor: Colors.pink,
-      child: Icon(Icons.local_bar, size: 30.0, color: Colors.white),
+      child: Icon(Icons.local_bar, size: 20.0, color: Colors.white),
     )
   };
 
@@ -77,11 +77,11 @@ class _LocationSelectorState extends State<LocationSelector> {
     return;
   }
 
-  void addMarker(double latitude, double longitude, Widget icon) {
+  void addMarker(double latitude, double longitude, Widget icon,{width = 80, height = 80}) {
     widget.markers.add(Marker(
       point: LatLng(latitude, longitude),
-      width: 80,
-      height: 80,
+      width: width,
+      height: height,
       child: icon,
     ));
   }
@@ -111,7 +111,9 @@ class _LocationSelectorState extends State<LocationSelector> {
       for (var promptedPlace in promptedPlaces) {
         if (isCategory) {
           addMarker(promptedPlace.latitude, promptedPlace.longitude,
-              categoryIconMap[currCategory]!);
+              categoryIconMap[currCategory]!,
+              width: 30,
+              height: 30);
         }
         positions[promptedPlace.name] = [
           promptedPlace.latitude,
