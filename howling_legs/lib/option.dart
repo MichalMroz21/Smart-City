@@ -23,7 +23,10 @@ class Option extends StatelessWidget {
           child: SizedBox(
             width: 500,
             child: Container(
-              decoration: const BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
               child: Column(
                 children: [
                   Padding(
