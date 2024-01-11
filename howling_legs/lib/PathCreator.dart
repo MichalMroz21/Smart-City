@@ -16,9 +16,14 @@ class _PathtCreatorState extends State<PathCreator> {
   final List<Place> places = [];
 
   void addItemToList(Place item) {
-    setState(() {
-      places.add(item);
-    });
+    if (places.length < 10) {
+      setState(() {
+        places.add(item);
+      });
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Maximum places reached!")));
+    }
   }
 
   @override

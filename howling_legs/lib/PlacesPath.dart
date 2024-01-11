@@ -18,7 +18,7 @@ class _PlacesPathtState extends State<PlacesPath> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 4 / 5,
+      height: MediaQuery.of(context).size.height * 8 / 9,
       child: SingleChildScrollView(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,

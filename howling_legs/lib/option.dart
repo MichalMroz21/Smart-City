@@ -37,7 +37,6 @@ class Option extends StatelessWidget {
                           textBaseline: null),
                     ),
                   ),
-                  const Divider(),
                 ],
               ),
             ),
