@@ -120,8 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              MarkerLayer(markers: markers),
               PolylineLayer(polylines: polylines),
+              MarkerLayer(markers: markers),
             ],
           ),
           // Positioned(
