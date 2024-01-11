@@ -9,6 +9,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'MevoFinder.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -177,6 +179,26 @@ class _MyHomePageState extends State<MyHomePage> {
               markers: markers,
             ),
           ),
+          Positioned(
+            bottom: 200,            
+            child: TextButton(
+              onPressed: () async{
+                Position userPosition = await determinePosition();                
+                addMarker(userPosition.latitude, userPosition.longitude, Icon(Icons.person));
+
+                List<Location> mevoPosition = await FindNearestMevo(
+                  Location(
+                    latitude: userPosition.latitude, 
+                    longitude: userPosition.longitude, 
+                    timestamp: DateTime.now())
+                );
+                mevoPosition.forEach(
+                  (station)=>addMarker(station.latitude, station.longitude, Icon(Icons.pedal_bike))
+                );
+                
+              }, 
+              child: Text('find mevo'))
+          )
         ],
       ),
     );

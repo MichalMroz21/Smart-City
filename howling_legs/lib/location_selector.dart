@@ -44,7 +44,7 @@ class _LocationSelectorState extends State<LocationSelector> {
   List<Place> places = [];
   String prompt = "";
   bool isCategory = false;
-  String currCategory = "bank";
+  String currCategory = "none";
   TextEditingController categoryController =
       TextEditingController(text: "none");
   Map<String, List<double>> positions = {};
@@ -68,6 +68,37 @@ class _LocationSelectorState extends State<LocationSelector> {
       height: 80,
       child: icon,
     ));
+  }
+
+  Future<Iterable<String>> callBox(String textEditingValue) async {
+    prompt = (currCategory == "none" ? textEditingValue : currCategory);
+    isCategory = (currCategory != "none");
+
+    if (prompt == '') {
+      return const Iterable<String>.empty();
+    }
+    Iterable<Place> promptedPlaces =
+        await Webservice.searchPrompts(prompt, isCategory);
+
+    if (isCategory) {
+      for (var promptedPlace in promptedPlaces) {
+        if (isCategory)
+          addMarker(promptedPlace.latitude, promptedPlace.longitude,
+              categoryIconMap[currCategory]!);
+        positions[promptedPlace.name] = [
+          promptedPlace.latitude,
+          promptedPlace.longitude
+        ];
+      }
+
+      return promptedPlaces.map((e) => e.name);
+      // {
+      //   return option
+      //       .contains(textEditingValue.text.toLowerCase());
+      // });
+      //;
+    }
+    return List.empty();
   }
 
   @override
@@ -124,6 +155,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                             //;
                           }
                           return List.empty();
+                          //return callBox(textEditingValue.text);
                         },
                         optionsViewBuilder: (context, onSelected, options) {
                           return SizedBox(
@@ -145,9 +177,10 @@ class _LocationSelectorState extends State<LocationSelector> {
                                         },
                                         onClick: () {
                                           setState(() {
-                                            places.add(promptedPlaces
-                                                .firstWhere((element) =>
-                                                    element.name == e));
+                                            Place p = promptedPlaces.firstWhere(
+                                                (element) => element.name == e);
+                                            debugPrint(p.name);
+                                            places.add(p);
                                           });
                                         },
                                       ),
@@ -194,6 +227,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                       onSelected: (value) {
                         setState(() {
                           currCategory = value!.label;
+                          callBox(currCategory);
                         });
                       },
                       dropdownMenuEntries: Category.values
