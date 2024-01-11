@@ -111,7 +111,7 @@ class _LocationSelectorState extends State<LocationSelector> {
     if (isCategory) {
       promptedPlaces = await Webservice.searchByCategory(currCategory);
       for (var promptedPlace in promptedPlaces) {
-
+        if (isCategory) {
           addMarker(promptedPlace.latitude, promptedPlace.longitude,
               categoryIconMap[currCategory]!,
               width: 30,
