@@ -273,6 +273,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                   widget.onDraw!(places);
                 });
               },
+              markers: widget.markers,
             ),
           ),
         ],

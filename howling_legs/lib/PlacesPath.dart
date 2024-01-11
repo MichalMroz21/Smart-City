@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:howling_legs/path_node.dart';
 
 import 'Place.dart';
 
 class PlacesPath extends StatefulWidget {
-  const PlacesPath({super.key, required this.places, required this.onRemove});
+  const PlacesPath({super.key, required this.places, required this.markers, required this.onRemove});
 
   final List<Place> places;
   final Function(Place)? onRemove;
+  final List<Marker> markers;
 
   @override
   State<StatefulWidget> createState() {
@@ -23,14 +25,15 @@ class _PlacesPathtState extends State<PlacesPath> {
       child: SingleChildScrollView(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: widget.places
+            children: widget.places.asMap().entries
                 .map((e) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: PathNode(
-                        place: e,
+                        place: e.value,
                         remove: () {
-                          widget.places.remove(e);
-                          widget.onRemove!(e);
+                          widget.markers.removeAt(e.key); //delete at index
+                          widget.places.remove(e.value);
+                          widget.onRemove!(e.value);                          
                           setState(() {});
                         },
                       ),
