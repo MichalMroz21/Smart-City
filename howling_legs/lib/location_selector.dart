@@ -76,7 +76,7 @@ class _LocationSelectorState extends State<LocationSelector> {
       children: [
         Container(
           decoration: const BoxDecoration(
-              color: Colors.white60,
+              color: Colors.white70,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Column(
             children: [
@@ -125,22 +125,46 @@ class _LocationSelectorState extends State<LocationSelector> {
                           return List.empty();
                         },
                         optionsViewBuilder: (context, onSelected, options) {
-                          return Column(
-                            children: options
-                                .map(
-                                  (e) => Option(
-                                    name: e,
-                                    onGoTo: () {
-                                      List<double> pos = positions[e]!;
-                                      widget.mapController.move(
-                                          LatLng(pos[0], pos[1]),
-                                          widget.mapController.zoom);
-                                    },
-                                    onClick: () {},
-                                  ),
-                                )
-                                .toList(),
+                          return SizedBox(
+                            height: 100,
+                            child: Expanded(
+                              child: SingleChildScrollView(
+                                clipBehavior: Clip.antiAlias,
+                                child: Column(
+                                  children: options
+                                      .map(
+                                        (e) => Option(
+                                          name: e,
+                                          onGoTo: () {
+                                            List<double> pos = positions[e]!;
+                                            widget.mapController.move(
+                                                LatLng(pos[0], pos[1]),
+                                                widget.mapController.zoom);
+                                          },
+                                          onClick: () {},
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                            ),
                           );
+                          // return Column(
+                          //   children: options
+                          //       .map(
+                          //         (e) => Option(
+                          //           name: e,
+                          //           onGoTo: () {
+                          //             List<double> pos = positions[e]!;
+                          //             widget.mapController.move(
+                          //                 LatLng(pos[0], pos[1]),
+                          //                 widget.mapController.zoom);
+                          //           },
+                          //           onClick: () {},
+                          //         ),
+                          //       )
+                          //       .toList(),
+                          // );
                         },
                         onSelected: (String selection) async {
                           Iterable<Place> promptedPlaces =

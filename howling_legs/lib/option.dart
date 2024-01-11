@@ -16,21 +16,29 @@ class Option extends StatelessWidget {
     return Row(
       children: [
         TextButton(
+          onPressed: onClick,
           child: SizedBox(
             width: 500,
             child: Container(
               decoration: const BoxDecoration(color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  name,
-                  style: const TextStyle(
-                      fontSize: 15, color: Colors.black, textBaseline: null),
-                ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 20.0),
+                    child: Text(
+                      name,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          textBaseline: null),
+                    ),
+                  ),
+                  const Divider(),
+                ],
               ),
             ),
           ),
-          onPressed: () {},
         ),
         IconButton(
           onPressed: onGoTo,
