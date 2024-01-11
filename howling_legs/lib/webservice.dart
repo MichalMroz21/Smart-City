@@ -16,9 +16,10 @@ class Webservice {
     String tag = "anemity";
     String cat = "restaurant";
     switch (category) {
-
+// TODO
     }
-    String url = 'http://overpass-api.de/api/interpreter?data=[out%3Ajson][timeout%3A25]%3B%0A%2F%2F+gather+results%0Anode["$tag"%3D"$cat"](54.23232696675557%2C18.288816971139966%2C54.59394763006434%2C18.785261673288403)%3B%0A%2F%2F+print+results%0Aout+geom%3B"';
+    String url =
+        'http://overpass-api.de/api/interpreter?data=[out%3Ajson][timeout%3A25]%3B%0A%2F%2F+gather+results%0Anode["$tag"%3D"$cat"](54.23232696675557%2C18.288816971139966%2C54.59394763006434%2C18.785261673288403)%3B%0A%2F%2F+print+results%0Aout+geom%3B"';
 
     var request = Uri.parse(url);
 
@@ -43,18 +44,23 @@ class Webservice {
     return results;
   }
 
-  static Future<Iterable<Place>> searchPrompts(String prompt, bool isCategory) async {
-
+  static Future<Iterable<Place>> searchPrompts(
+      String prompt, bool isCategory) async {
     if (prompt == '') {
       return const Iterable<Place>.empty();
     }
 
     String search = "q";
 
-    if(isCategory) search = "amenity";
-    else search = "q";
+    if (isCategory)
+      search = "amenity";
+    else
+      search = "q";
 
-    String url = "http://192.168.1.121:8080/search.php?" + search + "=$prompt" + "&limit=500";
+    String url = "http://192.168.1.121:8080/search.php?" +
+        search +
+        "=$prompt" +
+        "&limit=500";
 
     var request = Uri.parse(url);
 
