@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:howling_legs/Place.dart';
 import 'package:howling_legs/location_selector.dart';
 import 'package:howling_legs/PathCreator.dart';
 import 'package:howling_legs/webservice.dart';
@@ -57,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       pointsLat.add(LatLng(point[0], point[1]));
     }
 
-    polylines.add(Polyline(points: pointsLat, color: color, strokeWidth: 2));
+    polylines.add(Polyline(points: pointsLat, color: color, strokeWidth: 5));
   }
 
   Future<Address> _determineAddress() async {
@@ -177,6 +178,21 @@ class _MyHomePageState extends State<MyHomePage> {
               mapController: mapController,
               pathCreator: pathCrator,
               markers: markers,
+              onDraw: (List<Place> places) async {
+                if (places.length > 1) {
+                  List<List<double>> coordinates = [];
+                  List<Location> locations = [];
+                  for (var place in places) {
+                    locations.add(Location(
+                        latitude: place.latitude,
+                        longitude: place.longitude,
+                        timestamp: DateTime.now()));
+                  }
+                  coordinates = await Webservice.pathBetweenPoints(locations);
+
+                  addPath(coordinates, Colors.blue);
+                }
+              },
             ),
           ),
           Positioned(

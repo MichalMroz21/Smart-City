@@ -17,12 +17,15 @@ class LocationSelector extends StatefulWidget {
   final MapController mapController;
   final List<Marker> markers;
   static Map<String, List<double>> locations = {};
+  final Function(List<Place>)? onDraw;
 
-  const LocationSelector(
-      {super.key,
-      required this.pathCreator,
-      required this.mapController,
-      required this.markers});
+  const LocationSelector({
+    super.key,
+    required this.pathCreator,
+    required this.mapController,
+    required this.markers,
+    required this.onDraw,
+  });
 
   @override
   State<LocationSelector> createState() => _LocationSelectorState();
@@ -199,6 +202,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                                                         element.name == e);
                                                 debugPrint(p.name);
                                                 addPlace(p);
+                                                widget.onDraw!(places);
                                               });
                                             },
                                           ),
