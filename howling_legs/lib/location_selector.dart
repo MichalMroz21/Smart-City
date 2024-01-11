@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:howling_legs/PathCreator.dart';
+import 'package:howling_legs/Place.dart';
 import 'package:howling_legs/PlacesPath.dart';
+import 'package:howling_legs/option.dart';
 import 'package:howling_legs/webservice.dart';
 
 import 'Place.dart';
@@ -89,6 +91,21 @@ class _LocationSelectorState extends State<LocationSelector> {
                           // });
                           //;                     
                     },
+                    optionsViewBuilder: (context, onSelected, options) {
+                      return Column(
+                        children: options
+                            .map(
+                              (e) => Option(
+                                name: e,
+                                onGoTo: () {
+                                  debugPrint("eeee");
+                                },
+                                onClick: () {},
+                              ),
+                            )
+                            .toList(),
+                      );
+                    },
                     onSelected: (String selection) async {
                       Iterable<Place> promptedPlaces =
                           await Webservice.searchPrompts(prompt, isCategory);
@@ -106,11 +123,6 @@ class _LocationSelectorState extends State<LocationSelector> {
               
             ],
           ),
-        ),
-        Column(
-          children: [
-            PlacesPath(places: places),
-          ],
         ),
       ],
     );
