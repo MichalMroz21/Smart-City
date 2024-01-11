@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:howling_legs/Place.dart';
 
 class Option extends StatelessWidget {
   final String name;
+  final Place place;
   final Function()? onClick;
   final Function()? onGoTo;
 
   const Option(
       {super.key,
       required this.name,
+      required this.place,
       required this.onGoTo,
       required this.onClick});
 

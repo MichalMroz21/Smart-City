@@ -48,6 +48,7 @@ class _LocationSelectorState extends State<LocationSelector> {
   TextEditingController categoryController =
       TextEditingController(text: "none");
   Map<String, List<double>> positions = {};
+  Iterable<Place> promptedPlaces = [];
 
   Map<String, Icon> categoryIconMap = {
     "none": Icon(Icons.question_mark),
@@ -96,11 +97,11 @@ class _LocationSelectorState extends State<LocationSelector> {
                           isCategory = (currCategory != "none");
 
                           if (prompt == '') {
+                            promptedPlaces = [];
                             return const Iterable<String>.empty();
                           }
-                          Iterable<Place> promptedPlaces =
-                              await Webservice.searchPrompts(
-                                  prompt, isCategory);
+                          promptedPlaces = await Webservice.searchPrompts(
+                              prompt, isCategory);
 
                           if (isCategory) {
                             for (var promptedPlace in promptedPlaces) {
@@ -127,44 +128,34 @@ class _LocationSelectorState extends State<LocationSelector> {
                         optionsViewBuilder: (context, onSelected, options) {
                           return SizedBox(
                             height: 100,
-                            child: Expanded(
-                              child: SingleChildScrollView(
-                                clipBehavior: Clip.antiAlias,
-                                child: Column(
-                                  children: options
-                                      .map(
-                                        (e) => Option(
-                                          name: e,
-                                          onGoTo: () {
-                                            List<double> pos = positions[e]!;
-                                            widget.mapController.move(
-                                                LatLng(pos[0], pos[1]),
-                                                widget.mapController.zoom);
-                                          },
-                                          onClick: () {},
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
+                            child: SingleChildScrollView(
+                              clipBehavior: Clip.antiAlias,
+                              child: Column(
+                                children: options
+                                    .map(
+                                      (e) => Option(
+                                        name: e,
+                                        place: promptedPlaces.firstWhere(
+                                            (element) => element.name == e),
+                                        onGoTo: () {
+                                          List<double> pos = positions[e]!;
+                                          widget.mapController.move(
+                                              LatLng(pos[0], pos[1]),
+                                              widget.mapController.zoom);
+                                        },
+                                        onClick: () {
+                                          setState(() {
+                                            places.add(promptedPlaces
+                                                .firstWhere((element) =>
+                                                    element.name == e));
+                                          });
+                                        },
+                                      ),
+                                    )
+                                    .toList(),
                               ),
                             ),
                           );
-                          // return Column(
-                          //   children: options
-                          //       .map(
-                          //         (e) => Option(
-                          //           name: e,
-                          //           onGoTo: () {
-                          //             List<double> pos = positions[e]!;
-                          //             widget.mapController.move(
-                          //                 LatLng(pos[0], pos[1]),
-                          //                 widget.mapController.zoom);
-                          //           },
-                          //           onClick: () {},
-                          //         ),
-                          //       )
-                          //       .toList(),
-                          // );
                         },
                         onSelected: (String selection) async {
                           Iterable<Place> promptedPlaces =
