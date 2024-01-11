@@ -37,7 +37,7 @@ enum Category {
   hospital('hospital', Icons.local_hospital, Colors.red),
   pub('pub', Icons.local_bar, Colors.pink),
   shop('shop', Icons.shop, Colors.amber),
-  postOffice('post-office', Icons.local_post_office, Colors.deepPurple);
+  postOffice('post_office', Icons.local_post_office, Colors.deepPurple);
 
   const Category(this.label, this.icon, this.color);
   final String label;
