@@ -10,6 +10,15 @@ class PathNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> strings = place.name.split(',');
+    String result = "";
+    result += strings[0];
+    if (strings.length > 1) {
+      result += ", ${strings[1]}";
+    }
+    if (strings.length > 2) {
+      result += ", ${strings[2]}";
+    }
     return Row(
       children: [
         Container(
@@ -23,7 +32,7 @@ class PathNode extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  place.name.split(',').first,
+                  result,
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
