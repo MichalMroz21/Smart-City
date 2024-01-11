@@ -103,149 +103,167 @@ class _LocationSelectorState extends State<LocationSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-              color: Colors.white70,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Column(
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  SizedBox(
-                    height: 50,
-                    width: 400,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Autocomplete<String>(
-                        optionsBuilder:
-                            (TextEditingValue textEditingValue) async {
-                          prompt = (currCategory == "none"
-                              ? textEditingValue.text
-                              : currCategory);
-                          isCategory = (currCategory != "none");
+              Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white70,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          width: 400,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Autocomplete<String>(
+                              optionsBuilder:
+                                  (TextEditingValue textEditingValue) async {
+                                prompt = (currCategory == "none"
+                                    ? textEditingValue.text
+                                    : currCategory);
+                                isCategory = (currCategory != "none");
 
-                          if (prompt == '') {
-                            promptedPlaces = [];
-                            return const Iterable<String>.empty();
-                          }
-                          promptedPlaces = await Webservice.searchPrompts(
-                              prompt, isCategory);
+                                if (prompt == '') {
+                                  promptedPlaces = [];
+                                  return const Iterable<String>.empty();
+                                }
+                                promptedPlaces = await Webservice.searchPrompts(
+                                    prompt, isCategory);
 
-                          if (isCategory) {
-                            for (var promptedPlace in promptedPlaces) {
-                              if (isCategory)
-                                addMarker(
-                                    promptedPlace.latitude,
-                                    promptedPlace.longitude,
-                                    categoryIconMap[currCategory]!);
-                              positions[promptedPlace.name] = [
-                                promptedPlace.latitude,
-                                promptedPlace.longitude
-                              ];
-                            }
+                                if (isCategory) {
+                                  for (var promptedPlace in promptedPlaces) {
+                                    if (isCategory)
+                                      addMarker(
+                                          promptedPlace.latitude,
+                                          promptedPlace.longitude,
+                                          categoryIconMap[currCategory]!);
+                                    positions[promptedPlace.name] = [
+                                      promptedPlace.latitude,
+                                      promptedPlace.longitude
+                                    ];
+                                  }
 
-                            return promptedPlaces.map((e) => e.name);
-                            // {
-                            //   return option
-                            //       .contains(textEditingValue.text.toLowerCase());
-                            // });
-                            //;
-                          }
-                          return List.empty();
-                          //return callBox(textEditingValue.text);
-                        },
-                        optionsViewBuilder: (context, onSelected, options) {
-                          return SizedBox(
-                            height: 100,
-                            child: SingleChildScrollView(
-                              clipBehavior: Clip.antiAlias,
-                              child: Column(
-                                children: options
-                                    .map(
-                                      (e) => Option(
-                                        name: e,
-                                        place: promptedPlaces.firstWhere(
-                                            (element) => element.name == e),
-                                        onGoTo: () {
-                                          List<double> pos = positions[e]!;
-                                          widget.mapController.move(
-                                              LatLng(pos[0], pos[1]),
-                                              widget.mapController.zoom);
-                                        },
-                                        onClick: () {
-                                          setState(() {
-                                            Place p = promptedPlaces.firstWhere(
-                                                (element) => element.name == e);
-                                            debugPrint(p.name);
-                                            places.add(p);
-                                          });
-                                        },
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
+                                  return promptedPlaces.map((e) => e.name);
+                                  // {
+                                  //   return option
+                                  //       .contains(textEditingValue.text.toLowerCase());
+                                  // });
+                                  //;
+                                }
+                                return List.empty();
+                                //return callBox(textEditingValue.text);
+                              },
+                              optionsViewBuilder:
+                                  (context, onSelected, options) {
+                                return SizedBox(
+                                  height: 100,
+                                  child: SingleChildScrollView(
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Column(
+                                      children: options
+                                          .map(
+                                            (e) => Option(
+                                              name: e,
+                                              place: promptedPlaces.firstWhere(
+                                                  (element) =>
+                                                      element.name == e),
+                                              onGoTo: () {
+                                                List<double> pos =
+                                                    positions[e]!;
+                                                widget.mapController.move(
+                                                    LatLng(pos[0], pos[1]),
+                                                    widget.mapController.zoom);
+                                              },
+                                              onClick: () {
+                                                setState(() {
+                                                  Place p = promptedPlaces
+                                                      .firstWhere((element) =>
+                                                          element.name == e);
+                                                  debugPrint(p.name);
+                                                  places.add(p);
+                                                });
+                                              },
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              onSelected: (String selection) async {
+                                Iterable<Place> promptedPlaces =
+                                    await Webservice.searchPrompts(
+                                        prompt, isCategory);
+                                setState(() {
+                                  places.add(promptedPlaces
+                                      .firstWhere((e) => e.name == selection));
+                                });
+                                //                       List<double> points = locations[selection]!;
+                                // mapController.move(LatLng(points[0], points[1]), mapController.zoom);
+                              },
                             ),
-                          );
-                        },
-                        onSelected: (String selection) async {
-                          Iterable<Place> promptedPlaces =
-                              await Webservice.searchPrompts(
-                                  prompt, isCategory);
-                          setState(() {
-                            places.add(promptedPlaces
-                                .firstWhere((e) => e.name == selection));
-                          });
-                          //                       List<double> points = locations[selection]!;
-                          // mapController.move(LatLng(points[0], points[1]), mapController.zoom);
-                        },
-                      ),
+                          ),
+                        ),
+                        DropdownMenu<Category>(
+                            initialSelection: Category.none,
+                            inputDecorationTheme:
+                                const InputDecorationTheme(border: null),
+                            trailingIcon: Icon(
+                              Category.values
+                                  .where((e) => e.label == currCategory)
+                                  .first
+                                  .icon,
+                              color: Category.values
+                                  .where((e) => e.label == currCategory)
+                                  .first
+                                  .color,
+                            ),
+                            controller: categoryController,
+                            menuStyle: const MenuStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                                    Color.fromARGB(255, 240, 234, 216))),
+                            textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15),
+                            onSelected: (value) {
+                              setState(() {
+                                currCategory = value!.label;
+                                callBox(currCategory);
+                              });
+                            },
+                            dropdownMenuEntries: Category.values
+                                .map<DropdownMenuEntry<Category>>(
+                                    (Category icon) {
+                              return DropdownMenuEntry<Category>(
+                                  value: icon,
+                                  label: icon.label,
+                                  leadingIcon: Icon(
+                                    icon.icon,
+                                    color: icon.color,
+                                  ));
+                            }).toList()),
+                      ],
                     ),
-                  ),
-                  DropdownMenu<Category>(
-                      initialSelection: Category.none,
-                      inputDecorationTheme:
-                          const InputDecorationTheme(border: null),
-                      trailingIcon: Icon(
-                        Category.values
-                            .where((e) => e.label == currCategory)
-                            .first
-                            .icon,
-                        color: Category.values
-                            .where((e) => e.label == currCategory)
-                            .first
-                            .color,
-                      ),
-                      controller: categoryController,
-                      menuStyle: const MenuStyle(
-                          backgroundColor: MaterialStatePropertyAll(
-                              Color.fromARGB(255, 240, 234, 216))),
-                      textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
-                      onSelected: (value) {
-                        setState(() {
-                          currCategory = value!.label;
-                          callBox(currCategory);
-                        });
-                      },
-                      dropdownMenuEntries: Category.values
-                          .map<DropdownMenuEntry<Category>>((Category icon) {
-                        return DropdownMenuEntry<Category>(
-                            value: icon,
-                            label: icon.label,
-                            leadingIcon: Icon(
-                              icon.icon,
-                              color: icon.color,
-                            ));
-                      }).toList()),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(right: 50.0),
+            child: PlacesPath(places: places),
+          ),
+        ],
+      ),
     );
   }
 }

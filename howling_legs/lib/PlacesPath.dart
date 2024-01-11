@@ -17,18 +17,24 @@ class PlacesPath extends StatefulWidget {
 class _PlacesPathtState extends State<PlacesPath> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: widget.places
-            .map((e) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: PathNode(
-                    place: e,
-                    remove: () {
-                      widget.places.remove(e);
-                      setState(() {});
-                    },
-                  ),
-                ))
-            .toList());
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 4 / 5,
+      child: SingleChildScrollView(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: widget.places
+                .map((e) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: PathNode(
+                        place: e,
+                        remove: () {
+                          widget.places.remove(e);
+                          setState(() {});
+                        },
+                      ),
+                    ))
+                .toList()),
+      ),
+    );
   }
 }

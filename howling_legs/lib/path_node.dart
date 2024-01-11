@@ -23,7 +23,7 @@ class PathNode extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  place.name,
+                  place.name.split(',').first,
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
