@@ -1,2 +1,4 @@
+backend/nominatim/data/wikimedia-importance.sql.gz filter=lfs diff=lfs merge=lfs -text
+backend/nominatim/data/pomorskie-latest.osm.pbf filter=lfs diff=lfs merge=lfs -text
 *.gz filter=lfs diff=lfs merge=lfs -text
 *.pbf filter=lfs diff=lfs merge=lfs -text
