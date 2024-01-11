@@ -32,7 +32,7 @@ class LocationSelector extends StatefulWidget {
 }
 
 enum Category {
-  none('none', Icons.question_mark, Colors.grey),
+  none('none', Icons.location_pin, Colors.grey),
   bank('bank', Icons.attach_money, Colors.green),
   hospital('hospital', Icons.local_hospital, Colors.red),
   pub('pub', Icons.local_bar, Colors.pink);
@@ -54,18 +54,34 @@ class _LocationSelectorState extends State<LocationSelector> {
   Map<String, Marker> markerMap = {};
   Iterable<Place> promptedPlaces = [];
 
-  Map<String, Icon> categoryIconMap = {
-    "none": Icon(Icons.question_mark),
-    "bank": Icon(Icons.attach_money, size: 30.0, color: Colors.green),
-    "hospital": Icon(Icons.local_hospital, size: 30.0, color: Colors.red),
-    "pub": Icon(Icons.local_bar, size: 30.0, color: Colors.pink),
+  Map<String, Widget> categoryIconMap = {
+    "none": 
+      const CircleAvatar(
+        backgroundColor: Colors.red,                                                   
+        child: Icon(Icons.location_pin, size: 30.0, color: Colors.white),                                  
+      ),    
+    "bank":
+      const CircleAvatar(
+        backgroundColor: Colors.green,                                                   
+        child: Icon(Icons.attach_money, size: 30.0, color: Colors.white),                                  
+      ),
+    "hospital": 
+      const CircleAvatar(
+        backgroundColor: Colors.red,                                                   
+        child:Icon(Icons.local_hospital, size: 30.0, color: Colors.white),
+      ),    
+    "pub": 
+      const CircleAvatar(
+        backgroundColor: Colors.pink,                                                   
+        child:Icon(Icons.local_bar, size: 30.0, color: Colors.white),
+      )             
   };
 
   static void categoryChange(dynamic newCategory) {
     return;
   }
 
-  void addMarker(double latitude, double longitude, Icon icon) {
+  void addMarker(double latitude, double longitude, Widget icon) {
     widget.markers.add(Marker(
       point: LatLng(latitude, longitude),
       width: 80,
