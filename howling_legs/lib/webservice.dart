@@ -16,10 +16,18 @@ class Webservice {
     String tag = "anemity";
     String cat = "restaurant";
     switch (category) {
-// TODO
+      case "bank":
+        cat = "bank";
+        break;
+      case "hospital":
+        cat = "hospital";
+        break;
+      case "pub":
+        cat = "restaurant";
+        break;
     }
     String url =
-        'http://overpass-api.de/api/interpreter?data=[out%3Ajson][timeout%3A25]%3B%0A%2F%2F+gather+results%0Anode["$tag"%3D"$cat"](54.23232696675557%2C18.288816971139966%2C54.59394763006434%2C18.785261673288403)%3B%0A%2F%2F+print+results%0Aout+geom%3B"';
+        'http://overpass-api.de/api/interpreter/?data=[out:json][timeout:25];node["$tag"="$cat"](54.23674151771537,18.310780371668695,54.59832341427045,18.815464819910883);out geom;';
 
     var request = Uri.parse(url);
 
@@ -30,15 +38,18 @@ class Webservice {
       String resp = response.body;
 
       // Parse the JSON string
-      List<dynamic> jsonData = json.decode(resp);
+      var jsonData = json.decode(resp);
 
       // Extract points from the JSON
-      for (var data in jsonData.elementAt(3)) {
-        Place p = Place(
-            name: data["display_name"].toString(),
-            latitude: double.parse(data["lat"].toString()),
-            longitude: double.parse(data["lon"].toString()));
-        results.add(p);
+      for (var data in jsonData["elements"]) {
+        var tags = data["tags"];
+        if (tags["name"] != null) {
+          Place p = Place(
+              name: tags["name"],
+              latitude: double.parse(data["lat"].toString()),
+              longitude: double.parse(data["lon"].toString()));
+          results.add(p);
+        }
       }
     }
     return results;

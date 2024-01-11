@@ -180,6 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
               markers: markers,
               onDraw: (List<Place> places) async {
                 if (places.length > 1) {
+                  debugPrint(places.length.toString());
                   List<List<double>> coordinates = [];
                   List<Location> locations = [];
                   for (var place in places) {

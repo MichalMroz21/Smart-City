@@ -249,7 +249,15 @@ class _LocationSelectorState extends State<LocationSelector> {
           ),
           Padding(
             padding: const EdgeInsets.only(right: 50.0),
-            child: PlacesPath(places: places),
+            child: PlacesPath(
+              places: places,
+              onRemove: (p) {
+                setState(() {
+                  places.remove(p);
+                  widget.onDraw!(places);
+                });
+              },
+            ),
           ),
         ],
       ),
