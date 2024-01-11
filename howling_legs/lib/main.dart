@@ -180,8 +180,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            bottom: 200,            
-            child: TextButton(
+            top: 30,
+            left: 620,         
+            child: ElevatedButton(
               onPressed: () async{
                 Position userPosition = await determinePosition();                
                 addMarker(userPosition.latitude, userPosition.longitude, Icon(Icons.person));
@@ -197,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
                 
               }, 
-              child: Text('find mevo'))
+              child: const Text('Find Mevo'))
           )
         ],
       ),
