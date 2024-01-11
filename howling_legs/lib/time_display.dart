@@ -6,9 +6,15 @@ class TimeDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      child: Text((Webservice.time / 60000).toString()),
+    return Container(
+      decoration: const BoxDecoration(color: Colors.red),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        child: Text(
+          (Webservice.time / 60000).toString(),
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:howling_legs/Place.dart';
 import 'package:howling_legs/location_selector.dart';
 import 'package:howling_legs/PathCreator.dart';
+import 'package:howling_legs/time_display.dart';
 import 'package:howling_legs/webservice.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -215,6 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
+          const Positioned(bottom: 10, right: 30, child: TimeDisplay()),
           Positioned(
               top: 30,
               left: 620,
