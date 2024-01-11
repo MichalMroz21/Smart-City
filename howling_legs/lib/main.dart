@@ -83,11 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return coordinates;
   }
 
-  void addMarker(double latitude, double longitude, Icon icon) {
+  void addMarker(double latitude, double longitude, Widget icon, {width=80,height=80}) {
     markers.add(Marker(
       point: LatLng(latitude, longitude),
-      width: 80,
-      height: 80,
+      width: width,
+      height: height,
       child: icon,
     ));
   }
@@ -202,7 +202,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () async {
                     Position userPosition = await determinePosition();
                     addMarker(userPosition.latitude, userPosition.longitude,
-                        Icon(Icons.person));
+                        const CircleAvatar(
+                          backgroundColor: Colors.blue,                                                   
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 30,
+                          ),                                                    
+                        ),
+                        width:40,
+                        height: 40);
 
                     List<Location> mevoPosition = await FindNearestMevo(
                         Location(
@@ -212,7 +221,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     mevoPosition.forEach((station) => addMarker(
                         station.latitude,
                         station.longitude,
-                        Icon(Icons.pedal_bike)));
+                        const CircleAvatar(
+                          backgroundColor: Colors.red,                                                   
+                          child: Icon(
+                            Icons.pedal_bike,
+                            color: Colors.white,
+                            size: 30,
+                          ),                          
+                          
+                        ),
+                        width:40,
+                        height: 40
+                        ));
                   },
                   child: const Text('Find Mevo')))
         ],
