@@ -48,6 +48,7 @@ class _LocationSelectorState extends State<LocationSelector> {
   TextEditingController categoryController =
       TextEditingController(text: "none");
   Map<String, List<double>> positions = {};
+  Map<String, Marker> markerMap = {};
   Iterable<Place> promptedPlaces = [];
 
   Map<String, Icon> categoryIconMap = {
@@ -61,34 +62,46 @@ class _LocationSelectorState extends State<LocationSelector> {
     return;
   }
 
-  void addMarker(double latitude, double longitude, Icon icon) {
-    widget.markers.add(Marker(
+  Marker addMarker(double latitude, double longitude, Icon icon) {
+    Marker m = Marker(
       point: LatLng(latitude, longitude),
       width: 80,
       height: 80,
       child: icon,
-    ));
+    );
+    widget.markers.add(m);
+    return m;
   }
 
-  Future<Iterable<String>> callBox(String textEditingValue) async {
-    prompt = (currCategory == "none" ? textEditingValue : currCategory);
+  Future<Iterable<String>> callBox(String str) async {
+    prompt = (currCategory == "none"
+        ? str
+        : currCategory);
     isCategory = (currCategory != "none");
 
     if (prompt == '') {
+      promptedPlaces = [];
       return const Iterable<String>.empty();
     }
-    Iterable<Place> promptedPlaces =
-        await Webservice.searchPrompts(prompt, isCategory);
+    promptedPlaces = await Webservice.searchPrompts(
+        prompt, isCategory);
 
     if (isCategory) {
+
       for (var promptedPlace in promptedPlaces) {
-        if (isCategory)
-          addMarker(promptedPlace.latitude, promptedPlace.longitude,
+        if (isCategory){
+          Marker m = addMarker(
+              promptedPlace.latitude,
+              promptedPlace.longitude,
               categoryIconMap[currCategory]!);
+
+          markerMap[promptedPlace.name] = m;
+        }
         positions[promptedPlace.name] = [
           promptedPlace.latitude,
           promptedPlace.longitude
         ];
+        
       }
 
       return promptedPlaces.map((e) => e.name);
@@ -122,40 +135,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                       child: Autocomplete<String>(
                         optionsBuilder:
                             (TextEditingValue textEditingValue) async {
-                          prompt = (currCategory == "none"
-                              ? textEditingValue.text
-                              : currCategory);
-                          isCategory = (currCategory != "none");
-
-                          if (prompt == '') {
-                            promptedPlaces = [];
-                            return const Iterable<String>.empty();
-                          }
-                          promptedPlaces = await Webservice.searchPrompts(
-                              prompt, isCategory);
-
-                          if (isCategory) {
-                            for (var promptedPlace in promptedPlaces) {
-                              if (isCategory)
-                                addMarker(
-                                    promptedPlace.latitude,
-                                    promptedPlace.longitude,
-                                    categoryIconMap[currCategory]!);
-                              positions[promptedPlace.name] = [
-                                promptedPlace.latitude,
-                                promptedPlace.longitude
-                              ];
-                            }
-
-                            return promptedPlaces.map((e) => e.name);
-                            // {
-                            //   return option
-                            //       .contains(textEditingValue.text.toLowerCase());
-                            // });
-                            //;
-                          }
-                          return List.empty();
-                          //return callBox(textEditingValue.text);
+                          return callBox(textEditingValue.text);
                         },
                         optionsViewBuilder: (context, onSelected, options) {
                           return SizedBox(
@@ -227,6 +207,20 @@ class _LocationSelectorState extends State<LocationSelector> {
                       onSelected: (value) {
                         setState(() {
                           currCategory = value!.label;
+
+                          for(var marker in markerMap.values){
+                              int i = -1;
+
+                              for(int j = 0; j < widget.markers.length; j++){
+                                  if(widget.markers[j] == marker) { 
+                                      i = j;
+                                      break;
+                                  }
+                              }
+
+                              if(i != -1) widget.markers.removeAt(i);
+                          }
+
                           callBox(currCategory);
                         });
                       },

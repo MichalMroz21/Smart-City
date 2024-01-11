@@ -50,6 +50,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "ffi",
+      "rootUri": "file:///C:/Users/disen/AppData/Local/Pub/Cache/hosted/pub.dev/ffi-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///C:/Users/disen/Desktop/Smart%20City/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -398,7 +404,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-11T01:30:54.108061Z",
+  "generated": "2024-01-11T02:16:11.658679Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }
