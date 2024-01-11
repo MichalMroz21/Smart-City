@@ -55,7 +55,7 @@ class Webservice {
               name: tags["name"] + " "
               + (tags["addr:street"] == null ? " " : tags["addr:street"] + ", ") 
               + (tags["addr:housenumber"] == null ? " " : tags["addr:housenumber"] + ", ") 
-              + (tags["addr:city"] == null ? " " : tags["addr:city"] + ", "),
+              + (tags["addr:city"] == null ? " " : tags["addr:city"]),
               latitude: double.parse(data["lat"].toString()),
               longitude: double.parse(data["lon"].toString()));
           results.add(p);
