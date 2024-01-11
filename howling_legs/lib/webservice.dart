@@ -44,17 +44,18 @@ class Webservice {
     List<Place> results = [];
 
     if (response.statusCode == 200) {
-      String resp = response.body;
-
       // Parse the JSON string
-      var jsonData = json.decode(resp);
+      var jsonData = json.decode(utf8.decode(response.bodyBytes));
 
       // Extract points from the JSON
       for (var data in jsonData["elements"]) {
         var tags = data["tags"];
         if (tags["name"] != null) {
           Place p = Place(
-              name: tags["name"],
+              name: tags["name"] + " "
+              + (tags["addr:street"] == null ? " " : tags["addr:street"] + ", ") 
+              + (tags["addr:housenumber"] == null ? " " : tags["addr:housenumber"] + ", ") 
+              + (tags["addr:city"] == null ? " " : tags["addr:city"] + ", "),
               latitude: double.parse(data["lat"].toString()),
               longitude: double.parse(data["lon"].toString()));
           results.add(p);
