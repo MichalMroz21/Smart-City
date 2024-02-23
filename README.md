@@ -1,11 +1,11 @@
 # Smart City
 
 
-   Project made on Hackathon - Best Coding Marathon 2024 in Gdańsk
-   Application is for Desktops and it's created with Flutter
-   App presents a map of Gdańsk, allows to search specific addresses in the city and filtering it with a category (ex. Bank).
-   User can select multiple addresses and the App can calculate the most optimal path between them, from first address to the last one.
-   Application also allows to search for Mevo points on the map.
+   Project made on Hackathon - Best Coding Marathon 2024 in Gdańsk<br/>
+   Application is for Desktops and it's created with Flutter<br/>
+   App presents a map of Gdańsk, allows to search specific addresses in the city and filtering it with a category (ex. Bank).<br/>
+   User can select multiple addresses and the App can calculate the most optimal path between them, from first address to the last one.<br/>
+   Application also allows to search for Mevo points on the map.<br/>
 
    ## Main Menu
    ![image](https://github.com/MichalMroz21/Smart-City/assets/125133223/9c7ba5ab-ae81-4b1f-911c-7f187b3f59bc)
