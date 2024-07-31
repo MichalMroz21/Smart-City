@@ -2,7 +2,6 @@
 
 
    <h3>Project made on Hackathon - Best Coding Marathon 2024 in Gdańsk</h3>
-   Application is for Desktops and it's created with Flutter<br/>
    App presents a map of Gdańsk, allows to search specific addresses in the city and filtering it with a category (ex. Bank).<br/>
    User can select multiple addresses and the App can calculate the most optimal path between them, from first address to the last one.<br/>
    Application also allows to search for Mevo points on the map.<br/>
